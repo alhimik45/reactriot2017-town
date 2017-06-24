@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import AppState from './AppState'
+import AppState from './logic/AppState'
 import App from './components/App'
 import { useStrict } from 'mobx'
 

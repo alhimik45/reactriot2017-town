@@ -10,8 +10,8 @@ export default class Unit extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     name: PropTypes.string.isRequired,
-    cost: PropTypes.number.isRequired,
-    power: PropTypes.number.isRequired,
+    cost: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
     trainingAvailable: PropTypes.bool,
     trainingProgress: PropTypes.number,
@@ -23,7 +23,7 @@ export default class Unit extends Component {
     const tooltip = <b.Tooltip id={this.props.name + 'tooltip'}>
       <g.B>{this.props.name}</g.B><br />
       <g.B>Cost: </g.B>{this.props.cost}<br />
-      <g.B>Power: </g.B>{this.props.power}<br />
+      {this.props.description}
     </b.Tooltip>
     return (
       <Disabler enabled={this.props.trainingAvailable}>
