@@ -35,7 +35,7 @@ export default class Taxes extends Component {
           orientation='horizontal'
           tooltip={false}
           onChange={this.handleChange}
-          onChangeComplete={() => this.props.onChange(this.state.value)}
+          onChangeComplete={() => this.props.onChange && this.props.onChange(this.state.value)}
           min={0}
           max={100}
           labels={{0: '0%', 100: '100%'}}
