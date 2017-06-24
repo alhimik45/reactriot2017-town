@@ -11,12 +11,12 @@ export default class AppState {
     setInterval(() => this.inc(), 1000)
   }
 
-  @action
-  inc(){
-    this.counter++
+  sync () {
+    // this.hydrate('save', this)
   }
 
-  sync () {
-    this.hydrate('save', this)
+  @action
+  inc () {
+    this.counter++
   }
 }

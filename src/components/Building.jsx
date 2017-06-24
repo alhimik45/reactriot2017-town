@@ -1,30 +1,31 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import * as b from 'react-bootstrap'
 import { boldBorder } from './../styles'
 import { css } from 'glamor'
 
-@observer
 export default class Building extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     name: PropTypes.string.isRequired,
     level: PropTypes.number,
+    upgrading: PropTypes.number,
     imgSrc: PropTypes.string,
     onLevelUp: PropTypes.func
   }
 
   render () {
-    let backgroundStyle = {}
+    let imgBg = ''
     if (this.props.imgSrc) {
-      backgroundStyle = css({
-        background: `url(${this.props.imgSrc}) no-repeat`,
-        backgroundSize: 'contain',
-        backgroundPosition: 'center'
-      })
+      imgBg = `url(${this.props.imgSrc}) no-repeat,`
     }
-    const background = css(backgroundStyle)
+    const progress = this.props.upgrading || 0
+    const background = css({
+      background: `${imgBg} linear-gradient(to right, rgba(0,0,255,0.4) ${progress}%, #ffffff ${progress}%)`,
+      backgroundSize: 'contain',
+      backgroundPosition: 'center'
+    })
+
     return (
       <div {...css(boldBorder, background)}>
         <div className='text-center'>
