@@ -77,7 +77,7 @@ export default class Man {
   }
 
   @computed get imgSrc () {
-    return this.type.id + '.svg'
+    return this.type.id.toLowerCase() + '.svg'
   }
 
   constructor (type, amount) {

@@ -1,6 +1,7 @@
 import { persist } from 'mobx-persist'
 import { observable, computed } from 'mobx'
 import L from 'lazy.js'
+import _ from 'lodash/fp'
 
 export default class Resource {
   static types = L({
@@ -24,11 +25,11 @@ export default class Resource {
   }
 
   @computed get name () {
-    return this.type.id
+    return _.capitalize(this.type.id)
   }
 
   @computed get imgSrc () {
-    return this.type.id + '.svg'
+    return this.type.id.toLowerCase() + '.svg'
   }
 
   constructor (type, amount) {

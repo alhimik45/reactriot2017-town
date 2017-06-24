@@ -6,7 +6,7 @@ import PopulationState from './PopulationState'
 export default class AppState {
   @persist('object', ResourceState)
   @observable
-  resourceState = new ResourceState()
+  resourcesState = new ResourceState()
   populationState = new PopulationState()
 
   constructor () {

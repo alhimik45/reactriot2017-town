@@ -3,7 +3,6 @@ import { observer, PropTypes } from 'mobx-react'
 import { noTextSelect } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
-import DevTools from 'mobx-react-devtools'
 import Multiplier from './Multiplier'
 import Taxes from './Taxes'
 import ElementDivider from './ElementDivider'
@@ -63,11 +62,12 @@ export default class App extends Component {
             <b.Col xs={12}>
               Resources
               <ElementDivider>
-                {this.props.appState.resourcesState.resources.map(e =>
+                {this.props.appState.resourcesState.resources.map((e, i) =>
                   <StatsRow
+                    key={i}
                     name={e.name}
                     imgSrc={e.imgSrc}
-                    amount={e.amount} />
+                    amount={`${e.amount}`} />
                 )}
               </ElementDivider>
             </b.Col>
@@ -94,7 +94,6 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
         </b.Col>
-        <DevTools />
       </b.Row>
     )
   }

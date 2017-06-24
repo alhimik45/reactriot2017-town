@@ -15,8 +15,9 @@ export default class StatsRow extends Component {
   render () {
     return (
       <b.Row {...css({color: this.props.alert ? 'red' : ''})}>
-        <b.Col xs={9}>
+        <b.Col xs={9} className='text-left'>
           <img
+            width={15}
             src={this.props.imgSrc} />
           {this.props.name}
         </b.Col>
