@@ -1,16 +1,17 @@
 import { observable, computed } from 'mobx'
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
+import _ from 'lodash/fp'
 import Unit from './Unit'
 
 export default class PopulationState {
   @persist('list', Unit) @observable units =
     L(Unit.types)
-      .map(type => new Unit(type, 0)).toArray()
+      .map(type => new Unit(type, 1)).toArray()
 
   @persist @observable growth = { name: 'Growth', imgSrc: '/static/growth.svg', amount: 0 };
   @persist @observable mortality = { name: 'Mortality', imgSrc: '/static/mortality.svg', amount: 0 };
-  @persist @observable displeasure = { name: 'Displeasure', imgSrc: '/static/displeasure.svg', amount: 0 };
+  @persist @observable displeasure = { name: 'Anger', imgSrc: '/static/anger.svg', amount: 0 };
 
   getProfession (profession) {
     return L(this.units.slice())
@@ -47,10 +48,24 @@ export default class PopulationState {
 
   @computed get soldiersPower () {
     return {
-      name: 'Military power',
+      name: 'Power',
       imgSrc: '/static/power.svg',
       amount: this.getProfession('soldier')
         .sum(m => m.amount * m.type.power)
     }
+  }
+
+  @computed get resourcesPerSecond () {
+    return _(this.units.slice())
+      .map('resourcesDiff')
+      .flatten()
+      .reduce((res, [key, val]) => {
+        if (res[key]) {
+          res[key] += val
+        } else {
+          res[key] = val
+        }
+        return res
+      }, {})
   }
 }

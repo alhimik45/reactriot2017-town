@@ -16,7 +16,7 @@ export default class Unit {
       ],
       resourceEffect: [[Resource.types.GEMS.id, 5]]
     },
-    LUMBERJACK: {
+    LOGMAN: {
       profession: 'worker',
       cost: [[Resource.types.FOOD.id, 10]],
       resourceEffect: [[Resource.types.WOOD.id, 5]]
@@ -91,6 +91,11 @@ export default class Unit {
   @persist @observable type
   @persist @observable amount
 
+  constructor (type, amount) {
+    this.type = type
+    this.amount = amount
+  }
+
   @computed get name () {
     return _.capitalize(this.type.id)
   }
@@ -122,8 +127,16 @@ export default class Unit {
     return `/static/${this.type.id.toLowerCase()}.svg`
   }
 
-  constructor (type, amount) {
-    this.type = type
-    this.amount = amount
+  @computed get resourcesDiff () {
+    if (!this.type.resourceEffect) {
+      return []
+    }
+    return L(this.type.resourceEffect.slice()).map(([key, val]) => {
+      if (_.isFunction(val)) {
+        return [key, val()]
+      } else {
+        return [key, val]
+      }
+    }).toArray()
   }
 }

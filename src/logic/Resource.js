@@ -9,8 +9,8 @@ export default class Resource {
     GEMS: {},
     MONEY: {},
     FOOD: {},
-    POPULATION: { limited: true },
-    ELECTRICITY: { limited: true }
+    PEOPLE: { limited: true },
+    ELEC: { limited: true }
   }).map((val, key) => {
     val.id = key
     return [key, val]
