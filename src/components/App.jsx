@@ -9,6 +9,7 @@ import Taxes from './Taxes'
 import ElementDivider from './ElementDivider'
 import StatsRow from './StatsRow'
 import UnitGrid from './UnitGrid'
+import BuildingGrid from './BuildingGrid'
 
 @observer
 export default class App extends Component {
@@ -35,6 +36,9 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
           <b.Row>
+            <g.P fontSize='24px'>
+              Units
+            </g.P>
             <b.Col xs={12}>
               <UnitGrid units={this.props.appState.populationState.soldiers.concat(this.props.appState.populationState.workers)} />
             </b.Col>
@@ -71,6 +75,7 @@ export default class App extends Component {
               <g.P fontSize='24px'>
                 Buildings
               </g.P>
+              <BuildingGrid buildings={this.props.appState.buildingState.buildings} />
             </b.Col>
           </b.Row>
         </b.Col>

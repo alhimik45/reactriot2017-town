@@ -8,7 +8,7 @@ export default class Building extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     name: PropTypes.string.isRequired,
-    upgradeAvailable: PropTypes.bool.isRequired,
+    upgradeAvailable: PropTypes.bool,
     level: PropTypes.number,
     upgradeProgress: PropTypes.number,
     imgSrc: PropTypes.string,
