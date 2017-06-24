@@ -162,8 +162,9 @@ export default class App extends Component {
               </BigP>
               <Multiplier
                 elements={[1, 2, 3]}
-                current={0}
-                nameFormatter={n => n + 'x'} />
+                current={appState.tickPerSecond}
+                nameFormatter={n => n + 'x'}
+                onChange={n => appState.setSpeed(n)} />
             </b.Col>
           </b.Row>
         </b.Col>

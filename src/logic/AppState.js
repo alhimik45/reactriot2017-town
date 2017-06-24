@@ -76,4 +76,9 @@ export default class AppState {
   setTrainingMultiplier (n) {
     this.trainingMultiplier = n
   }
+
+  @action
+  setSpeed (n) {
+    this.tickPerSecond = n
+  }
 }
