@@ -16,7 +16,7 @@ export default class Unit extends Component {
     trainingAvailable: PropTypes.bool,
     trainingProgress: PropTypes.number,
     queueSize: PropTypes.number,
-    onTrainClick: PropTypes.func
+    onTrain: PropTypes.func
   }
 
   render () {
@@ -32,7 +32,7 @@ export default class Unit extends Component {
         <b.OverlayTrigger placement='right' overlay={tooltip}>
           <ImageProgressBar
             {...css({ width: '70px', height: '70px' })}
-            onClick={this.props.onTrainClick}
+            onClick={() => this.props.trainingAvailable && this.props.onTrain && this.props.onTrain()}
             imgSrc={this.props.imgSrc}
             progress={this.props.trainingProgress}>
             {

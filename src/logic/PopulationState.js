@@ -1,21 +1,29 @@
-import { observable, computed } from 'mobx'
+import { observable, computed, action } from 'mobx'
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
 import _ from 'lodash/fp'
 import Unit from './Unit'
 
 export default class PopulationState {
-  @persist('list', Unit) @observable units =
-    L(Unit.types)
-      .map(type => new Unit(type, 1)).toArray()
+  @persist('map', Unit) @observable unitsMap =
+    observable.map(L(Unit.types)
+      .map(type => [type.id, new Unit(type, 0)]).toObject())
 
   @persist @observable growth = { name: 'Growth', imgSrc: '/static/growth.svg', amount: 0 };
   @persist @observable mortality = { name: 'Mortality', imgSrc: '/static/mortality.svg', amount: 0 };
   @persist @observable displeasure = { name: 'Anger', imgSrc: '/static/anger.svg', amount: 0 };
 
+  doTick () {
+    this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
+  }
+
   getProfession (profession) {
     return L(this.units.slice())
       .filter(m => m.type.profession === profession)
+  }
+
+  @computed get units () {
+    return this.unitsMap.values()
   }
 
   @computed get population () {
@@ -67,5 +75,16 @@ export default class PopulationState {
         }
         return res
       }, {})
+  }
+
+  @action
+  trainUnit (unit) {
+    this.unitsMap.get(Unit.types.IDLE.id).amount -= 1
+    unit.addToQueue()
+  }
+
+  @action
+  stepTraining () {
+    this.units.forEach(unit => unit.stepTraining())
   }
 }

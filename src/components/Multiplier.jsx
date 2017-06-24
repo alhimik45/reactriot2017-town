@@ -6,21 +6,21 @@ import L from 'lazy.js'
 export default class Multiplier extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
-    elementsCount: PropTypes.number.isRequired,
-    currentElement: PropTypes.number.isRequired,
+    elements: PropTypes.array.isRequired,
+    current: PropTypes.number.isRequired,
     nameFormatter: PropTypes.func.isRequired,
-    onMultiplierChange: PropTypes.func
+    onChange: PropTypes.func
   }
 
   render () {
     return (
       <b.ButtonGroup>
-        {L.range(this.props.elementsCount).map(i =>
+        {L(this.props.elements).map(n =>
           <b.Button
-            key={i}
-            onClick={() => this.props.onMultiplierChange && this.props.onMultiplierChange(i)}
-            active={this.props.currentElement === i}>
-            {this.props.nameFormatter(i)}
+            key={n}
+            onClick={() => this.props.onChange && this.props.onChange(n)}
+            active={this.props.current === n}>
+            {this.props.nameFormatter(n)}
           </b.Button>
         ).toArray()}
       </b.ButtonGroup>

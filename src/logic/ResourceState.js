@@ -4,17 +4,27 @@ import L from 'lazy.js'
 import Resource from './Resource'
 
 export default class ResourceState {
-  @persist('list', Resource) @observable resourcesMap =
-    L(Resource.types)
-      .map(type => [type.id, new Resource(type, 10000)]).toObject()
+  @persist('map', Resource) @observable resourcesMap =
+    observable.map(L(Resource.types)
+      .map(type => [type.id, new Resource(type, 0)]).toObject())
 
   @computed get resources () {
-    return L(this.resourcesMap).map(resource => resource).toArray()
+    return this.resourcesMap.values()
   }
 
   @action applyDiff (diff) {
     L(diff).each((val, key) => {
-      this.resourcesMap[key].amount += val
+      this.resourcesMap.get(key).amount += val
     })
+  }
+
+  @action applyReverseDiff (diff) {
+    L(diff).each((val, key) => {
+      this.resourcesMap.get(key).amount -= val
+    })
+  }
+
+  moreThan (resources) {
+    return L(resources).every((val, key) => this.resourcesMap.get(key).amount >= val)
   }
 }

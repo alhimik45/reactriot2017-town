@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { observer, PropTypes } from 'mobx-react'
+import PropTypes from 'prop-types'
+import { observer } from 'mobx-react'
 import ElementDivider from './ElementDivider'
 import Unit from './Unit'
 
@@ -14,7 +15,9 @@ const rowMargin = css({
 export default class UnitGrid extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
-    units: PropTypes.arrayOrObservableArray.isRequired
+    canBuy: PropTypes.func.isRequired,
+    onTrain: PropTypes.func.isRequired,
+    units: PropTypes.array.isRequired
   }
 
   render () {
@@ -24,10 +27,14 @@ export default class UnitGrid extends Component {
           {this.props.units.map((unit, i) =>
             <Unit
               key={i}
+              trainingAvailable={this.props.canBuy(unit)}
+              trainingProgress={unit.queueProgress}
+              queueSize={unit.queueLength}
               name={unit.name}
-              cost={unit.cost}
+              cost={unit.costStr}
               description={unit.description}
-              imgSrc={unit.imgSrc} />
+              imgSrc={unit.imgSrc}
+              onTrain={() => this.props.onTrain(unit)} />
           )}
         </ElementDivider>
       </div>

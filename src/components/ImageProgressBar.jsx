@@ -19,7 +19,7 @@ export default class ImageProgressBar extends Component {
     }
     const progress = this.props.progress || 0
     const background = css({
-      background: `linear-gradient(to right, rgba(0,0,255,0.4) ${progress}%, rgba(255,255,255,0.4) ${progress}%) ${imgBg}`,
+      background: `linear-gradient(to right, rgba(0,0,255,0.4) ${progress}%, rgba(255,255,255,0.0) ${progress}%) ${imgBg}`,
       backgroundSize: 'contain',
       backgroundPosition: 'center'
     })

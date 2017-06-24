@@ -1,7 +1,7 @@
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
 import _ from 'lodash/fp'
-import { observable, computed } from 'mobx'
+import { observable, computed, action } from 'mobx'
 import Resource from './Resource'
 
 export default class Unit {
@@ -90,6 +90,8 @@ export default class Unit {
 
   @persist @observable type
   @persist @observable amount
+  @persist @observable queueLength = 0
+  @persist @observable currentQueueUnitTicks = 100
 
   constructor (type, amount) {
     this.type = type
@@ -100,7 +102,7 @@ export default class Unit {
     return _.capitalize(this.type.id)
   }
 
-  @computed get cost () {
+  @computed get costStr () {
     return this.type.cost
       .map(([resource, amount]) => `${amount} ${_.capitalize(resource)}`)
       .join(', ')
@@ -127,16 +129,45 @@ export default class Unit {
     return `/static/${this.type.id.toLowerCase()}.svg`
   }
 
+  @computed get cost () {
+    if (!this.type.cost) {
+      return {}
+    }
+    return L(this.type.cost.slice()).toObject()
+  }
+
   @computed get resourcesDiff () {
     if (!this.type.resourceEffect) {
       return []
     }
     return L(this.type.resourceEffect.slice()).map(([key, val]) => {
       if (_.isFunction(val)) {
-        return [key, val()]
-      } else {
-        return [key, val]
+        val = val()
       }
+      return [key, val * this.amount]
     }).toArray()
+  }
+
+  @computed get queueProgress () {
+    return 100 - this.currentQueueUnitTicks
+  }
+
+  addToQueue () {
+    this.queueLength += 1
+    if (this.queueLength === 1) {
+      this.currentQueueUnitTicks = 100
+    }
+  }
+
+  @action
+  stepTraining () {
+    if (this.queueLength > 0) {
+      this.currentQueueUnitTicks -= 1
+      if (this.currentQueueUnitTicks === 0) {
+        this.amount += 1
+        this.queueLength -= 1
+        this.currentQueueUnitTicks = 100
+      }
+    }
   }
 }

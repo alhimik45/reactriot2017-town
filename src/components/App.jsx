@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, PropTypes } from 'mobx-react'
-import { noTextSelect, margin5 } from './../styles'
+import { margin5, noTextSelect } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
 import { css } from 'glamor'
@@ -10,7 +10,11 @@ import Taxes from './Taxes'
 import ElementDivider from './ElementDivider'
 import StatsRow from './StatsRow'
 import UnitGrid from './UnitGrid'
-import BuildingGrid from './BuildingGrid'
+import DevTools from 'mobx-react-devtools'
+
+const BigP = g.p({
+  fontSize: '24px'
+})
 
 @observer
 export default class App extends Component {
@@ -24,26 +28,30 @@ export default class App extends Component {
   }
 
   render () {
+    const { appState } = this.props
     return (
       <b.Row {...css(noTextSelect, margin5)} className='text-center'>
         <b.Col xs={3}>
           <b.Row>
             <b.Col xs={12}>
-              <g.P fontSize='24px'>
+              <BigP>
                 Training
-              </g.P>
+              </BigP>
               <Multiplier
-                elementsCount={3}
-                currentElement={1}
-                nameFormatter={i => 'x' + 10 ** i} />
+                elements={[1, 10, 100]}
+                current={appState.trainingMultiplier}
+                nameFormatter={n => 'x' + n}
+                onChange={n => appState.setTrainingMultiplier(n)} />
             </b.Col>
           </b.Row>
           <b.Row>
-            <g.P fontSize='24px'>
+            <BigP>
               Units
-            </g.P>
+            </BigP>
             <b.Col xs={12}>
               <UnitGrid
+                canBuy={u => appState.canBuy(u)}
+                onTrain={u => appState.buyUnit(u)}
                 units={this.props.appState.populationState.soldiers.concat(this.props.appState.populationState.workers)} />
             </b.Col>
           </b.Row>
@@ -57,9 +65,9 @@ export default class App extends Component {
         </b.Col>
         <b.Col xs={6}>
           <b.Row>
-            <g.P fontSize='24px'>
+            <BigP>
               STATISTICS
-            </g.P>
+            </BigP>
             <b.Col xs={12}>
               <b.Col xs={6}>
                 <ElementDivider>
@@ -83,19 +91,19 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              <g.P fontSize='24px'>
+              <BigP>
                 Buildings
-              </g.P>
-              <BuildingGrid buildings={this.props.appState.buildingState.buildings} />
+              </BigP>
+              {/* <BuildingGrid buildings={this.props.appState.buildingState.buildings} /> */}
             </b.Col>
           </b.Row>
         </b.Col>
         <b.Col xs={3}>
           <b.Row>
             <b.Col xs={12}>
-              <g.P fontSize='24px'>
+              <BigP>
                 Resources
-              </g.P>
+              </BigP>
               <ElementDivider>
                 {this.props.appState.resourcesState.resources.map((e, i) =>
                   <StatsRow
@@ -109,9 +117,9 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              <g.P fontSize='24px'>
+              <BigP>
                 Population
-              </g.P>
+              </BigP>
               <ElementDivider>
                 {this.props.appState.populationState.population.map((e, i) =>
                   <StatsRow
@@ -148,16 +156,17 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              <g.P fontSize='24px'>
+              <BigP>
                 Speed
-              </g.P>
+              </BigP>
               <Multiplier
-                elementsCount={3}
-                currentElement={1}
-                nameFormatter={i => (i + 1) + 'x'} />
+                elements={[1, 2, 3]}
+                current={0}
+                nameFormatter={n => n + 'x'} />
             </b.Col>
           </b.Row>
         </b.Col>
+        <DevTools />
       </b.Row>
     )
   }
