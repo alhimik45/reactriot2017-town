@@ -8,6 +8,7 @@ import Multiplier from './Multiplier'
 import Taxes from './Taxes'
 import ElementDivider from './ElementDivider'
 import StatsRow from './StatsRow'
+import UnitGrid from './UnitGrid'
 
 @observer
 export default class App extends Component {
@@ -36,7 +37,7 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              !!UNIT COMPONENT!!
+              <UnitGrid units={this.props.appState.populationState.soldiers.concat(this.props.appState.populationState.workers)} />
             </b.Col>
           </b.Row>
           <b.Row>

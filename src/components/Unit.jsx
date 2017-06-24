@@ -21,8 +21,10 @@ export default class Unit extends Component {
 
   render () {
     const tooltip = <b.Tooltip id={this.props.name + 'tooltip'}>
-      <g.B>{this.props.name}</g.B><br />
-      <g.B>Cost: </g.B>{this.props.cost}<br />
+      <g.B>{this.props.name}</g.B>
+      <br />
+      <g.B>Cost:</g.B>
+      {this.props.cost}<br />
       {this.props.description}
     </b.Tooltip>
     return (
@@ -33,15 +35,19 @@ export default class Unit extends Component {
             onClick={this.props.onTrainClick}
             imgSrc={this.props.imgSrc}
             progress={this.props.trainingProgress}>
-            <g.Span
-              padding='2px'
-              margin='2px'
-              borderRadius='7px'
-              fontSize='20px'
-              color='white'
-              backgroundColor='rgba(10,10,10,0.5)'>
-              {this.props.queueSize ? this.props.queueSize : ''}
-            </g.Span>
+            {
+              this.props.queueSize
+                ? <g.Span
+                  padding='2px'
+                  margin='2px'
+                  borderRadius='7px'
+                  fontSize='20px'
+                  color='white'
+                  backgroundColor='rgba(10,10,10,0.5)'>
+                  {this.props.queueSize}
+                </g.Span>
+                : null
+            }
           </ImageProgressBar>
         </b.OverlayTrigger>
       </Disabler>
