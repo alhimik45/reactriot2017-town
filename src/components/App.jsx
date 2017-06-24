@@ -5,6 +5,7 @@ import * as b from 'react-bootstrap'
 import g from 'glamorous'
 import DevTools from 'mobx-react-devtools'
 import Multiplier from './Multiplier'
+import Taxes from './Taxes'
 
 @observer
 export default class App extends Component {
@@ -15,10 +16,10 @@ export default class App extends Component {
 
   render () {
     return (
-      <b.Row {...noTextSelect}>
+      <b.Row {...noTextSelect} className='text-center'>
         <b.Col xs={3}>
           <b.Row>
-            <b.Col xs={12}>
+            <b.Col xs={12} >
               <g.P fontSize='24px'>
                 Training
               </g.P>
@@ -59,7 +60,7 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              Taxes
+              <Taxes value={50} onChange={null} />
             </b.Col>
           </b.Row>
           <b.Row>
