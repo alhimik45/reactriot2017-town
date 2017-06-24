@@ -78,9 +78,9 @@ export default class PopulationState {
   }
 
   @action
-  trainUnit (unit) {
-    this.unitsMap.get(Unit.types.IDLE.id).amount -= 1
-    unit.addToQueue()
+  trainUnit (unit, count) {
+    this.unitsMap.get(Unit.types.IDLE.id).amount -= count
+    unit.addToQueue(count)
   }
 
   @action

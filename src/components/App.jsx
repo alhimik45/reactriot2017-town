@@ -11,6 +11,7 @@ import ElementDivider from './ElementDivider'
 import StatsRow from './StatsRow'
 import UnitGrid from './UnitGrid'
 import DevTools from 'mobx-react-devtools'
+import BuildingGrid from './BuildingGrid'
 
 const BigP = g.p({
   fontSize: '24px'
@@ -94,7 +95,7 @@ export default class App extends Component {
               <BigP>
                 Buildings
               </BigP>
-              {/* <BuildingGrid buildings={this.props.appState.buildingState.buildings} /> */}
+              <BuildingGrid buildings={this.props.appState.buildingState.buildings} />
             </b.Col>
           </b.Row>
         </b.Col>

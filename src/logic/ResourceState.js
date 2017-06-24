@@ -6,7 +6,7 @@ import Resource from './Resource'
 export default class ResourceState {
   @persist('map', Resource) @observable resourcesMap =
     observable.map(L(Resource.types)
-      .map(type => [type.id, new Resource(type, 0)]).toObject())
+      .map(type => [type.id, new Resource(type, 950)]).toObject())
 
   @computed get resources () {
     return this.resourcesMap.values()
@@ -18,13 +18,13 @@ export default class ResourceState {
     })
   }
 
-  @action applyReverseDiff (diff) {
+  @action applyReverseDiff (diff, count) {
     L(diff).each((val, key) => {
-      this.resourcesMap.get(key).amount -= val
+      this.resourcesMap.get(key).amount -= val * count
     })
   }
 
-  moreThan (resources) {
-    return L(resources).every((val, key) => this.resourcesMap.get(key).amount >= val)
+  moreThan (resources, count) {
+    return L(resources).every((val, key) => this.resourcesMap.get(key).amount >= val * count)
   }
 }

@@ -152,9 +152,9 @@ export default class Unit {
     return 100 - this.currentQueueUnitTicks
   }
 
-  addToQueue () {
-    this.queueLength += 1
-    if (this.queueLength === 1) {
+  addToQueue (count) {
+    this.queueLength += count
+    if (this.queueLength === count) {
       this.currentQueueUnitTicks = 100
     }
   }

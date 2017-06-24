@@ -24,7 +24,7 @@ export default class AppState {
     this.hydrate = create({ storage: window.localStorage })
     this.sync()
     this.populationState.units[3].amount++
-    this.populationState.units[0].amount += 10
+    this.populationState.units[0].amount += 10000
     // this.doTick()
     this.runResourceTicks()
     this.runTrainingTicks()
@@ -50,7 +50,7 @@ export default class AppState {
     setTimeout(() => {
       this.doTrainingTick()
       this.runTrainingTicks()
-    }, this.tickTime / 50)
+    }, this.tickTime / 10)
   }
 
   @action
@@ -63,13 +63,13 @@ export default class AppState {
   }
 
   canBuy = createTransformer(unit =>
-  this.resourcesState.moreThan(unit.cost) &&
-  this.populationState.units[0].amount > 0)
+  this.resourcesState.moreThan(unit.cost, this.trainingMultiplier) &&
+  this.populationState.units[0].amount >= this.trainingMultiplier)
 
   @action
   buyUnit (unit) {
-    this.resourcesState.applyReverseDiff(unit.cost)
-    this.populationState.trainUnit(unit)
+    this.resourcesState.applyReverseDiff(unit.cost, this.trainingMultiplier)
+    this.populationState.trainUnit(unit, this.trainingMultiplier)
   }
 
   @action
