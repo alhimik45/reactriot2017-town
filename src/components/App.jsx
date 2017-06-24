@@ -4,12 +4,21 @@ import { noTextSelect } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
 import DevTools from 'mobx-react-devtools'
+import Multiplier from './Multiplier'
 
 @observer
 export default class App extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     appState: PropTypes.observableObject.isRequired
+  }
+
+  formatTrainingsMultiplier (I) {
+    return (1 * 10 ** I) + 'x'
+  }
+
+  formatGameSpeed (I) {
+    return 'x' + (I + 1)
   }
 
   render () {
@@ -20,6 +29,7 @@ export default class App extends Component {
             <g.P fontSize='24px'>
               Training
             </g.P>
+            <Multiplier numberOfSpeeds={3} currentSpeed={1} nameFormatter={this.formatTrainingsMultiplier} />
           </b.Row>
           <b.Row>
             !!UNIT COMPONENT!!
@@ -31,7 +41,9 @@ export default class App extends Component {
           </b.Row>
         </b.Col>
         <b.Col xs={6}>
-          Buildings
+          <g.P fontSize='24px'>
+            Buildings
+          </g.P>
         </b.Col>
         <b.Col xs={3}>
           <b.Row>
@@ -44,7 +56,10 @@ export default class App extends Component {
             Taxes
           </b.Row>
           <b.Row>
-            Speed
+            <g.P fontSize='24px'>
+              Speed
+            </g.P>
+            <Multiplier numberOfSpeeds={3} currentSpeed={1} nameFormatter={this.formatGameSpeed} />
           </b.Row>
         </b.Col>
         <DevTools />
