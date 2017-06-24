@@ -8,24 +8,33 @@ export default class PopulationState {
     L(Man.types)
       .map(type => new Man(type, 0)).toArray()
 
-  static getProfessionCount (arr, profession) {
-    return arr
+  getProfession (profession) {
+    return L(this.people.slice())
+      .filter(m => m.type.profession === profession)
   }
 
   @computed get population () {
-    const p = L(this.people.slice())
-    return p
-      .filter(m => m.type.profession === 'none')
+    return this.getProfession('none')
       .map(({ name, amount }) => ({ name, amount }))
       .concat(
       {
         name: 'Workers',
-        amount: p.filter(m => m.type.profession === 'worker').sum(m => m.amount)
+        amount: this.getProfession('worker').sum(m => m.amount)
       },
       {
         name: 'Soldiers',
-        amount: p.filter(m => m.type.profession === 'soldier').sum(m => m.amount)
+        amount: this.getProfession('soldier').sum(m => m.amount)
       }
       ).toArray()
+  }
+
+  @computed workers () {
+    return this.getProfession('worker')
+      .map(({ name, amount }) => ({ name, amount }))
+  }
+
+  @computed soldiers () {
+    return this.getProfession('soldier')
+      .map(({ name, amount }) => ({ name, amount }))
   }
 }
