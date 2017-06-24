@@ -39,7 +39,11 @@ export default class PopulationState {
   }
 
   @computed get soldiersPower () {
-    return this.getProfession('soldier')
-      .sum(m => m.amount * m.type.power)
+    return {
+      name: 'Military power',
+      imgSrc: '/static/power.svg',
+      amount: this.getProfession('soldier')
+        .sum(m => m.amount * m.type.power)
+    }
   }
 }
