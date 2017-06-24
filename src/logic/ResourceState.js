@@ -8,6 +8,10 @@ export default class ResourceState {
     observable.map(L(Resource.types)
       .map(type => [type.id, new Resource(type, 950)]).toObject())
 
+  moreThan (resources, count) {
+    return L(resources).every((val, key) => this.resourcesMap.get(key).amount >= val * count)
+  }
+
   @computed get resources () {
     return this.resourcesMap.values()
   }
@@ -24,7 +28,7 @@ export default class ResourceState {
     })
   }
 
-  moreThan (resources, count) {
-    return L(resources).every((val, key) => this.resourcesMap.get(key).amount >= val * count)
+  @action calcTax (tax, population) {
+    this.resourcesMap.get(Resource.types.MONEY.id).amount += Math.round(population / 1000 * tax)
   }
 }

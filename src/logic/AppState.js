@@ -19,6 +19,7 @@ export default class AppState {
 
   @persist @observable tickPerSecond = 1
   @persist @observable trainingMultiplier = 1
+  @persist @observable tax = 20
 
   constructor () {
     this.hydrate = create({ storage: window.localStorage })
@@ -44,6 +45,7 @@ export default class AppState {
   @action
   doResourceTick () {
     this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
+    this.resourcesState.calcTax(this.tax, this.populationState.totalPopulationAmount)
   }
 
   runTrainingTicks () {
@@ -80,5 +82,10 @@ export default class AppState {
   @action
   setSpeed (n) {
     this.tickPerSecond = n
+  }
+
+  @action
+  setTax (n) {
+    this.tax = n
   }
 }
