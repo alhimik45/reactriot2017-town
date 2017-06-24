@@ -19,23 +19,23 @@ export default class PopulationState {
       .concat(
       {
         name: 'Workers',
-        amount: this.getProfession('worker').sum(m => m.amount)
+        amount: this.getProfession('worker').sum(m => m.amount),
+        imgSrc: '/static/worker.svg'
       },
       {
         name: 'Soldiers',
-        amount: this.getProfession('soldier').sum(m => m.amount)
+        amount: this.getProfession('soldier').sum(m => m.amount),
+        imgSrc: '/static/soldier.svg'
       }
       ).toArray()
   }
 
   @computed get workers () {
-    return this.getProfession('worker')
-      .map(({ name, amount }) => ({ name, amount })).toArray()
+    return this.getProfession('worker').toArray()
   }
 
   @computed get soldiers () {
-    return this.getProfession('soldier')
-      .map(({ name, amount }) => ({ name, amount })).toArray()
+    return this.getProfession('soldier').toArray()
   }
 
   @computed get soldiersPower () {
