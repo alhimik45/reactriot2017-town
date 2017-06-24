@@ -34,6 +34,7 @@ export default class Man {
     OFFICER: { profession: 'soldier', power: 5 },
     GENERAL: {
       profession: 'soldier',
+      power: 0,
       description: 'General significantly increases power of army, but too many generals can lead to unrest and RIOT'
     },
 
