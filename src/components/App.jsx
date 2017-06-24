@@ -3,6 +3,7 @@ import { observer, PropTypes } from 'mobx-react'
 import { noTextSelect } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
+import DevTools from 'mobx-react-devtools'
 
 @observer
 export default class App extends Component {
@@ -46,6 +47,7 @@ export default class App extends Component {
             Speed
           </b.Row>
         </b.Col>
+        <DevTools />
       </b.Row>
     )
   }
