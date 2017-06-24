@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { observer, PropTypes } from 'mobx-react'
+import { noTextSelect } from './../styles'
 
 @observer
 export default class App extends Component {
@@ -11,7 +12,9 @@ export default class App extends Component {
   render () {
     const appState = this.props.appState
     return (
-      <h1>Hello world: {appState.counter}</h1>
+      <div {...noTextSelect}>
+        <h1>Hello world: {appState.counter}</h1>
+      </div>
     )
   }
 }

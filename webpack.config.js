@@ -12,14 +12,17 @@ const config = {
     publicPath: '/static'
   },
   resolve: {
-    extensions: [ '.js', '.jsx' ]
+    extensions: ['.js', '.jsx']
   },
   module: {
-    loaders: [ {
+    loaders: [{
       test: /\.jsx?$/,
-      loaders: [ 'babel-loader' ],
+      loaders: ['babel-loader'],
       include: path.join(__dirname, 'src')
-    } ]
+    }, {
+      test: /\.css$/,
+      loader: "style-loader!css-loader"
+    }]
   }
 }
 

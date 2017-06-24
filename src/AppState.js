@@ -16,6 +16,6 @@ export default class AppState {
   }
 
   sync () {
-    this.hydrate('save', this)
+    // this.hydrate('save', this)
   }
 }

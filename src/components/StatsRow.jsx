@@ -7,7 +7,7 @@ export default class StatsRow extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     name: PropTypes.string.isRequired,
-    img: PropTypes.string.isRequired,
+    imgSrc: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired
   }
 
@@ -16,7 +16,7 @@ export default class StatsRow extends Component {
       <b.Row>
         <b.Col xs={9}>
           <g.Img
-            src={this.props.img} />
+            src={this.props.imgSrc} />
           {this.props.name}
         </b.Col>
         <b.Col xs={3}>

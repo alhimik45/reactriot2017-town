@@ -8,24 +8,42 @@ export default class Taxes extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     value: PropTypes.number,
-    handleOnChangeComplete: PropTypes.func
+    onChange: PropTypes.func
+  }
+
+  constructor (props, context) {
+    super(props, context)
+    this.state = {
+      value: this.props.value || 20
+    }
+  }
+
+  handleChange = (value) => {
+    this.setState({
+      value: value
+    })
   }
 
   render () {
     return (
-      <g.Div>
+      <div>
         <g.P fontSize='24px'>
           Taxes
         </g.P>
         <Slider
-          value={this.props.value}
+          value={this.state.value}
           orientation='horizontal'
-          onChangeComplete={this.props.handleOnChange}
+          tooltip={false}
+          onChange={this.handleChange}
+          onChangeComplete={() => this.props.onChange(this.state.value)}
           min={0}
           max={100}
           labels={{0: '0%', 100: '100%'}}
         />
-      </g.Div>
+        <div className='text-center'>
+          {this.state.value}%
+        </div>
+      </div>
     )
   }
 }
