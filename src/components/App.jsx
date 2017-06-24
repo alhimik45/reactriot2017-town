@@ -17,7 +17,6 @@ export default class App extends Component {
     appState: PropTypes.observableObject.isRequired
   }
   getProfessionsOneByOne () {
-    console.log(this.props.appState.populationState.getTotal())
     return L(this.props.appState.populationState.workers).zip(this.props.appState.populationState.soldiers).flatten().without(undefined).concat([this.props.appState.populationState.soldiersPower]).toArray()
   }
   render () {
@@ -56,10 +55,10 @@ export default class App extends Component {
             <b.Col xs={12}>
               <b.Col xs={6}>
                 <ElementDivider>
-                  <StatsRow name={this.props.appState.populationState.growth.name} imgSrc={this.props.appState.populationState.growth.imgSrc} amount={this.props.appState.populationState.growth.amount} />
-                  <StatsRow name={this.props.appState.populationState.mortality.name} imgSrc={this.props.appState.populationState.mortality.imgSrc} amount={this.props.appState.populationState.mortality.amount} />
-                  <StatsRow name={this.props.appState.populationState.displeasure.name} imgSrc={this.props.appState.populationState.displeasure.imgSrc} amount={this.props.appState.populationState.displeasure.amount} />
-                  <StatsRow name='Total' imgSrc='/static/total.svg' amount={this.props.appState.populationState.getTotal()} />
+                  <StatsRow name={this.props.appState.populationState.growth.name} imgSrc={this.props.appState.populationState.growth.imgSrc} amount={`${this.props.appState.populationState.growth.amount}`} />
+                  <StatsRow name={this.props.appState.populationState.mortality.name} imgSrc={this.props.appState.populationState.mortality.imgSrc} amount={`${this.props.appState.populationState.mortality.amount}`} />
+                  <StatsRow name={this.props.appState.populationState.displeasure.name} imgSrc={this.props.appState.populationState.displeasure.imgSrc} amount={`${this.props.appState.populationState.displeasure.amount}`} />
+                  <StatsRow name='Total' imgSrc='/static/total.svg' amount={`${this.props.appState.populationState.totalPopulationAmount}`} />
                 </ElementDivider>
               </b.Col>
               <b.Col xs={6}>

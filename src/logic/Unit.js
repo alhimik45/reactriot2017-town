@@ -4,9 +4,9 @@ import _ from 'lodash/fp'
 import { observable, computed } from 'mobx'
 import Resource from './Resource'
 
-export default class Man {
+export default class Unit {
   static types = L({
-    UNEMPLOYED: { profession: 'none' },
+    IDLE: { profession: 'none' },
 
     MINER: {
       profession: 'worker',

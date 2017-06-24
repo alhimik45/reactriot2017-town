@@ -1,31 +1,24 @@
 import { observable, computed } from 'mobx'
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
-import Man from './Man'
+import Unit from './Unit'
 
 export default class PopulationState {
-  @persist('list', Man) @observable people =
-    L(Man.types)
-      .map(type => new Man(type, 0)).toArray()
+  @persist('list', Unit) @observable units =
+    L(Unit.types)
+      .map(type => new Unit(type, 0)).toArray()
 
-  @persist @observable growth = {name: 'Growth', imgSrc: '/static/growth.svg', amount: '0'};
-  @persist @observable mortality = {name: 'Mortality', imgSrc: '/static/mortality.svg', amount: '0'};
-  @persist @observable displeasure= {name: 'Displeasure', imgSrc: '/static/displeasure.svg', amount: '0'};
-
-  getTotal () {
-    let total = 0
-    this.population.map(e => (total = total + e.amount))
-    return total
-  }
+  @persist @observable growth = { name: 'Growth', imgSrc: '/static/growth.svg', amount: 0 };
+  @persist @observable mortality = { name: 'Mortality', imgSrc: '/static/mortality.svg', amount: 0 };
+  @persist @observable displeasure = { name: 'Displeasure', imgSrc: '/static/displeasure.svg', amount: 0 };
 
   getProfession (profession) {
-    return L(this.people.slice())
+    return L(this.units.slice())
       .filter(m => m.type.profession === profession)
   }
 
   @computed get population () {
     return this.getProfession('none')
-      .map(({ name, amount }) => ({ name, amount }))
       .concat(
       {
         name: 'Workers',
@@ -35,9 +28,13 @@ export default class PopulationState {
       {
         name: 'Soldiers',
         amount: this.getProfession('soldier').sum(m => m.amount),
-        imgSrc: '/static/soldier.svg'
+        imgSrc: '/static/recruit.svg'
       }
       ).toArray()
+  }
+
+  @computed get totalPopulationAmount () {
+    return L(this.population).sum(m => m.amount)
   }
 
   @computed get workers () {
