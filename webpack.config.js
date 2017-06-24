@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 
 const config = {
   devtool: process.env.NODE_ENV === 'production' ? 'nosources-source-map ' : 'cheap-module-eval-source-map ',

@@ -1,49 +1,45 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as b from 'react-bootstrap'
-import { boldBorder } from './../styles'
-import { css } from 'glamor'
+import Disabler from './Disabler'
+import ImageProgressBar from './ImageProgressBar'
 
 export default class Building extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     name: PropTypes.string.isRequired,
+    upgradeAvailable: PropTypes.bool.isRequired,
     level: PropTypes.number,
-    upgrading: PropTypes.number,
+    upgradeProgress: PropTypes.number,
     imgSrc: PropTypes.string,
-    onLevelUp: PropTypes.func
+    onUpgradeClick: PropTypes.func
   }
 
   render () {
-    let imgBg = ''
-    if (this.props.imgSrc) {
-      imgBg = `url(${this.props.imgSrc}) no-repeat,`
-    }
-    const progress = this.props.upgrading || 0
-    const background = css({
-      background: `${imgBg} linear-gradient(to right, rgba(0,0,255,0.4) ${progress}%, #ffffff ${progress}%)`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center'
-    })
+    const isBuildingActive = this.props.upgradeAvailable || !!this.props.level
 
     return (
-      <div {...css(boldBorder, background)}>
-        <div className='text-center'>
-          {this.props.name}
-        </div>
-        <b.Row>
-          <b.Col xs={6} className='text-center'>
-            <img
-              src='/static/plus.svg'
-              width={25}
-              onClick={this.props.onLevelUp}
-            />
-          </b.Col>
-          <b.Col xs={6} className='text-center'>
-            {this.props.level || 0}
-          </b.Col>
-        </b.Row>
-      </div>
+      <Disabler enabled={isBuildingActive}>
+        <ImageProgressBar imgSrc={this.props.imgSrc} progress={this.props.upgradeProgress}>
+          <div className='text-center'>
+            {this.props.name}
+          </div>
+          <b.Row>
+            <b.Col xs={6} className='text-center'>
+              <Disabler enabled={this.props.upgradeAvailable}>
+                <img
+                  src='/static/plus.svg'
+                  width={25}
+                  onClick={this.props.upgradeAvailable ? this.props.onUpgradeClick : null}
+                />
+              </Disabler>
+            </b.Col>
+            <b.Col xs={6} className='text-center'>
+              {this.props.level || 0}
+            </b.Col>
+          </b.Row>
+        </ImageProgressBar>
+      </Disabler>
     )
   }
 }
