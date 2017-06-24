@@ -6,6 +6,8 @@ import g from 'glamorous'
 import DevTools from 'mobx-react-devtools'
 import Multiplier from './Multiplier'
 import Taxes from './Taxes'
+import ElementDivider from './ElementDivider'
+import StatsRow from './StatsRow'
 
 @observer
 export default class App extends Component {
@@ -19,7 +21,7 @@ export default class App extends Component {
       <b.Row {...noTextSelect} className='text-center'>
         <b.Col xs={3}>
           <b.Row>
-            <b.Col xs={12} >
+            <b.Col xs={12}>
               <g.P fontSize='24px'>
                 Training
               </g.P>
@@ -43,14 +45,31 @@ export default class App extends Component {
           </b.Row>
         </b.Col>
         <b.Col xs={6}>
-          <g.P fontSize='24px'>
-            Buildings
-          </g.P>
+          <b.Row>
+            <b.Col xs={12}>
+              STATISTICS
+            </b.Col>
+          </b.Row>
+          <b.Row>
+            <b.Col xs={12}>
+              <g.P fontSize='24px'>
+                Buildings
+              </g.P>
+            </b.Col>
+          </b.Row>
         </b.Col>
         <b.Col xs={3}>
           <b.Row>
             <b.Col xs={12}>
               Resources
+              <ElementDivider>
+                {this.props.appState.resourcesState.resources.map(e =>
+                  <StatsRow
+                    name={e.name}
+                    imgSrc={e.imgSrc}
+                    amount={e.amount} />
+                )}
+              </ElementDivider>
             </b.Col>
           </b.Row>
           <b.Row>

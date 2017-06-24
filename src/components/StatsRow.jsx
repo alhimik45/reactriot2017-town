@@ -8,7 +8,7 @@ export default class StatsRow extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
+    amount: PropTypes.string.isRequired,
     alert: PropTypes.bool
   }
 
