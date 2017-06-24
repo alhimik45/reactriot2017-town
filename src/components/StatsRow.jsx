@@ -19,6 +19,7 @@ export default class StatsRow extends Component {
           <img
             width={15}
             src={this.props.imgSrc} />
+          &nbsp;
           {this.props.name}
         </b.Col>
         <b.Col xs={3}>

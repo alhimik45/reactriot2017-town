@@ -10,7 +10,7 @@ export default class Man {
 
     MINER: {
       profession: 'worker',
-      resourceEffect: L([[Resource.types.METAL.id, 5]]).toObject()
+      resourceEffect: L([[Resource.types.GEMS.id, 5]]).toObject()
     },
     WOODSMAN: {
       profession: 'worker',
@@ -42,7 +42,7 @@ export default class Man {
       resourceEffect: L([
         [Resource.types.FOOD.id, () => _.random(-12, 3)],
         [Resource.types.WOOD.id, () => _.random(-12, 3)],
-        [Resource.types.METAL.id, () => _.random(-12, 3)]
+        [Resource.types.GEMS.id, () => _.random(-12, 3)]
       ]).toObject()
     },
     CRIMINAL: {
@@ -50,7 +50,7 @@ export default class Man {
       resourceEffect: L([
         [Resource.types.FOOD.id, () => _.random(-3, 1)],
         [Resource.types.WOOD.id, () => _.random(-3, 1)],
-        [Resource.types.METAL.id, () => _.random(-3, 1)]
+        [Resource.types.GEMS.id, () => _.random(-3, 1)]
       ]).toObject()
     },
     PRISONER: {
@@ -58,7 +58,7 @@ export default class Man {
       resourceEffect: L([
         [Resource.types.FOOD.id, () => _.random(-1, 6)],
         [Resource.types.WOOD.id, () => _.random(-1, 6)],
-        [Resource.types.METAL.id, () => _.random(-1, 6)]
+        [Resource.types.GEMS.id, () => _.random(-1, 6)]
       ]).toObject()
     }
   }).map((val, key) => {
@@ -74,7 +74,7 @@ export default class Man {
   }
 
   @computed get imgSrc () {
-    return this.type.id.toLowerCase() + '.svg'
+    return `/static/${this.type.id.toLowerCase()}.svg`
   }
 
   constructor (type, amount) {

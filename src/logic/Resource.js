@@ -6,7 +6,7 @@ import _ from 'lodash/fp'
 export default class Resource {
   static types = L({
     WOOD: {},
-    METAL: {},
+    GEMS: {},
     MONEY: {},
     FOOD: {},
     POPULATION: { limited: true },
@@ -29,7 +29,7 @@ export default class Resource {
   }
 
   @computed get imgSrc () {
-    return this.type.id.toLowerCase() + '.svg'
+    return `/static/${this.type.id.toLowerCase()}.svg`
   }
 
   constructor (type, amount) {
