@@ -28,17 +28,17 @@ export default class PopulationState {
       ).toArray()
   }
 
-  @computed workers () {
+  @computed get workers () {
     return this.getProfession('worker')
-      .map(({ name, amount }) => ({ name, amount }))
+      .map(({ name, amount }) => ({ name, amount })).toArray()
   }
 
-  @computed soldiers () {
+  @computed get soldiers () {
     return this.getProfession('soldier')
-      .map(({ name, amount }) => ({ name, amount }))
+      .map(({ name, amount }) => ({ name, amount })).toArray()
   }
 
-  @computed soldiersPower () {
+  @computed get soldiersPower () {
     return this.getProfession('soldier')
       .sum(m => m.amount * m.type.power)
   }
