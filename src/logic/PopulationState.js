@@ -37,4 +37,9 @@ export default class PopulationState {
     return this.getProfession('soldier')
       .map(({ name, amount }) => ({ name, amount }))
   }
+
+  @computed soldiersPower () {
+    return this.getProfession('soldier')
+      .sum(m => m.amount * m.type.power)
+  }
 }
