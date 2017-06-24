@@ -3,6 +3,7 @@ import { observer, PropTypes } from 'mobx-react'
 import { noTextSelect } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
+import L from 'lazy.js'
 import Multiplier from './Multiplier'
 import Taxes from './Taxes'
 import ElementDivider from './ElementDivider'
@@ -14,7 +15,9 @@ export default class App extends Component {
   static propTypes = {
     appState: PropTypes.observableObject.isRequired
   }
-
+  getProfessionsOneByOne () {
+    return L(this.props.appState.populationState.workers).zip(this.props.appState.populationState.soldiers).flatten().without(undefined).concat([this.props.appState.populationState.soldiersPower]).toArray()
+  }
   render () {
     return (
       <b.Row {...noTextSelect} className='text-center'>
@@ -60,7 +63,9 @@ export default class App extends Component {
         <b.Col xs={3}>
           <b.Row>
             <b.Col xs={12}>
-              Resources
+              <g.P fontSize='24px'>
+                Resources
+              </g.P>
               <ElementDivider>
                 {this.props.appState.resourcesState.resources.map((e, i) =>
                   <StatsRow
@@ -74,7 +79,36 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              Population
+              <g.P fontSize='24px'>
+                Population
+              </g.P>
+              <ElementDivider>
+                {this.props.appState.populationState.population.map((e, i) =>
+                  <StatsRow
+                    key={i}
+                    name={e.name}
+                    imgSrc={e.imgSrc}
+                    amount={`${e.amount}`} />
+                )}
+              </ElementDivider>
+              <br />
+              <g.Div>
+                <g.P fontSize='18px' width='50%' float='left'>
+                  Workers
+                </g.P>
+                <g.P fontSize='18px' width='50%' float='left'>
+                  Soldiers
+                </g.P>
+              </g.Div>
+              <ElementDivider>
+                {this.getProfessionsOneByOne().map((e, i) =>
+                  <StatsRow
+                    key={i}
+                    name={e.name}
+                    imgSrc={e.imgSrc}
+                    amount={`${e.amount}`} />
+                )}
+              </ElementDivider>
             </b.Col>
           </b.Row>
           <b.Row>
