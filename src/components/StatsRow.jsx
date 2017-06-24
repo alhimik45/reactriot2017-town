@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as b from 'react-bootstrap'
-import g from 'glamorous'
 import { css } from 'glamor'
 
 export default class StatsRow extends Component {
@@ -10,16 +9,16 @@ export default class StatsRow extends Component {
     name: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired,
-    alert: PropTypes.bool.isRequired
+    alert: PropTypes.bool
   }
 
   render () {
     return (
       <b.Row {...css({color: this.props.alert ? 'red' : ''})}>
         <b.Col xs={9}>
-          <g.Img
+          <img
             src={this.props.imgSrc} />
-          {this.props.alert}
+          {this.props.name}
         </b.Col>
         <b.Col xs={3}>
           {this.props.amount}
