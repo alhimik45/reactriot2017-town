@@ -25,6 +25,7 @@
     "cross-env": "^5.0.1",
     "glamor": "^2.20.25",
     "glamorous": "^3.23.3",
+    "lazy.js": "^0.5.0",
     "lodash": "^4.17.4",
     "mobx": "^3.0.0",
     "mobx-persist": "^0.3.3",
