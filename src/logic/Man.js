@@ -6,7 +6,7 @@ import Resource from './Resource'
 
 export default class Man {
   static types = L({
-    UNEMPLOYED: { untrainable: true },
+    UNEMPLOYED: { profession: 'none' },
 
     MINER: {
       profession: 'worker',
@@ -38,8 +38,7 @@ export default class Man {
     },
 
     RIOTER: {
-      profession: 'worker',
-      untrainable: true,
+      profession: 'none',
       resourceEffect: L([
         [Resource.types.FOOD.id, () => _.random(-12, 3)],
         [Resource.types.WOOD.id, () => _.random(-12, 3)],
@@ -47,8 +46,7 @@ export default class Man {
       ]).toObject()
     },
     CRIMINAL: {
-      profession: 'worker',
-      untrainable: true,
+      profession: 'none',
       resourceEffect: L([
         [Resource.types.FOOD.id, () => _.random(-3, 1)],
         [Resource.types.WOOD.id, () => _.random(-3, 1)],
@@ -56,8 +54,7 @@ export default class Man {
       ]).toObject()
     },
     PRISONER: {
-      profession: 'worker',
-      untrainable: true,
+      profession: 'none',
       resourceEffect: L([
         [Resource.types.FOOD.id, () => _.random(-1, 6)],
         [Resource.types.WOOD.id, () => _.random(-1, 6)],
@@ -73,7 +70,7 @@ export default class Man {
   @persist @observable amount
 
   @computed get name () {
-    return this.type.id
+    return _.capitalize(this.type.id)
   }
 
   @computed get imgSrc () {
