@@ -11,6 +11,6 @@ const appState = new AppState()
 document.body.style.overflow = 'hidden'
 
 render(
-  <App appState={appState}/>,
+  <App appState={appState} />,
   document.getElementById('root')
 )

@@ -32,7 +32,8 @@
     "prop-types": "^15.5.10",
     "react": "^15.1.0",
     "react-bootstrap": "^0.31.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "react-rangeslider": "^2.1.0"
   },
   "standard": {
     "parser": "babel-eslint"
