@@ -2,6 +2,7 @@ import { observable, computed } from 'mobx'
 import { create, persist } from 'mobx-persist'
 import ResourceState from './ResourceState'
 import PopulationState from './PopulationState'
+import BuildingState from './BuildingState'
 
 export default class AppState {
   @persist('object', ResourceState)
@@ -11,6 +12,7 @@ export default class AppState {
   @persist('object', PopulationState)
   @observable
   populationState = new PopulationState()
+  buildingState = new BuildingState()
 
   @persist @observable tickPerSecond = 1
 
