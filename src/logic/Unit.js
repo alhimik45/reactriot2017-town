@@ -31,11 +31,6 @@ export default class Unit {
       cost: [[Resource.types.FOOD.id, 10]],
       resourceEffect: [[Resource.types.FOOD.id, 10]]
     },
-    BUILDER: {
-      profession: 'worker',
-      cost: [[Resource.types.FOOD.id, 10]],
-      description: 'Increases construction speed. The more buildings the more builders you need'
-    },
 
     RECRUIT: {
       profession: 'soldier',

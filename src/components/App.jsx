@@ -25,7 +25,14 @@ export default class App extends Component {
   }
 
   getProfessionsOneByOne () {
-    return L(this.props.appState.populationState.workers).zip(this.props.appState.populationState.soldiers).flatten().without(undefined).concat([this.props.appState.populationState.soldiersPower]).toArray()
+    return L(this.props.appState.populationState.workers)
+      .zip(this.props.appState.populationState.soldiers)
+      .flatten()
+      .concat([
+        {name: '', amount: ''},
+        this.props.appState.populationState.soldiersPower
+      ])
+      .toArray()
   }
 
   render () {

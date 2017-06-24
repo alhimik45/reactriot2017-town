@@ -8,8 +8,8 @@ export default class StatsRow extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     name: PropTypes.string.isRequired,
-    imgSrc: PropTypes.string.isRequired,
     amount: PropTypes.string.isRequired,
+    imgSrc: PropTypes.string,
     alert: PropTypes.bool
   }
 
@@ -21,9 +21,10 @@ export default class StatsRow extends Component {
         <b.Col
           {...paddingSides5}
           xs={8} className='text-left'>
+          {this.props.imgSrc &&
           <img
             width={15}
-            src={this.props.imgSrc} />
+            src={this.props.imgSrc} />}
           &nbsp;
           {this.props.name}
         </b.Col>
