@@ -15,11 +15,11 @@ export default class StatsRow extends Component {
 
   render () {
     return (
-      <b.Row {...css({color: this.props.alerted ? 'red' : ''})}>
+      <b.Row {...css({color: this.props.alert ? 'red' : ''})}>
         <b.Col xs={9}>
           <g.Img
             src={this.props.imgSrc} />
-          {this.props.alerted}
+          {this.props.alert}
         </b.Col>
         <b.Col xs={3}>
           {this.props.amount}

@@ -13,31 +13,32 @@ export default class App extends Component {
     appState: PropTypes.observableObject.isRequired
   }
 
-  formatTrainingsMultiplier (I) {
-    return (1 * 10 ** I) + 'x'
-  }
-
-  formatGameSpeed (I) {
-    return 'x' + (I + 1)
-  }
-
   render () {
     return (
       <b.Row {...noTextSelect}>
         <b.Col xs={3}>
           <b.Row>
-            <g.P fontSize='24px'>
-              Training
-            </g.P>
-            <Multiplier numberOfSpeeds={3} currentSpeed={1} nameFormatter={this.formatTrainingsMultiplier} />
+            <b.Col xs={12}>
+              <g.P fontSize='24px'>
+                Training
+              </g.P>
+              <Multiplier
+                elementsCount={3}
+                currentElement={1}
+                nameFormatter={i => 'x' + 10 ** i} />
+            </b.Col>
           </b.Row>
           <b.Row>
-            !!UNIT COMPONENT!!
+            <b.Col xs={12}>
+              !!UNIT COMPONENT!!
+            </b.Col>
           </b.Row>
           <b.Row>
-            <g.P fontSize='24px'>
-              War
-            </g.P>
+            <b.Col xs={12}>
+              <g.P fontSize='24px'>
+                War
+              </g.P>
+            </b.Col>
           </b.Row>
         </b.Col>
         <b.Col xs={6}>
@@ -47,19 +48,30 @@ export default class App extends Component {
         </b.Col>
         <b.Col xs={3}>
           <b.Row>
-            Resources
+            <b.Col xs={12}>
+              Resources
+            </b.Col>
           </b.Row>
           <b.Row>
-            Population
+            <b.Col xs={12}>
+              Population
+            </b.Col>
           </b.Row>
           <b.Row>
-            Taxes
+            <b.Col xs={12}>
+              Taxes
+            </b.Col>
           </b.Row>
           <b.Row>
-            <g.P fontSize='24px'>
-              Speed
-            </g.P>
-            <Multiplier numberOfSpeeds={3} currentSpeed={1} nameFormatter={this.formatGameSpeed} />
+            <b.Col xs={12}>
+              <g.P fontSize='24px'>
+                Speed
+              </g.P>
+              <Multiplier
+                elementsCount={3}
+                currentElement={1}
+                nameFormatter={i => (i + 1) + 'x'} />
+            </b.Col>
           </b.Row>
         </b.Col>
         <DevTools />
