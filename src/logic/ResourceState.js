@@ -18,13 +18,13 @@ export default class ResourceState {
 
   @action applyDiff (diff) {
     L(diff).each((val, key) => {
-      this.resourcesMap.get(key).amount += val
+      this.resourcesMap.get(key).amount = Math.max(this.resourcesMap.get(key).amount + val, 0)
     })
   }
 
   @action applyReverseDiff (diff, count) {
     L(diff).each((val, key) => {
-      this.resourcesMap.get(key).amount -= val * count
+      this.resourcesMap.get(key).amount = Math.max(this.resourcesMap.get(key).amount - val * count, 0)
     })
   }
 

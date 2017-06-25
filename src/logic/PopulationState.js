@@ -3,6 +3,7 @@ import { persist } from 'mobx-persist'
 import L from 'lazy.js'
 import _ from 'lodash/fp'
 import Unit from './Unit'
+import Resource from './Resource'
 
 export default class PopulationState {
   @persist('map', Unit) @observable unitsMap =
@@ -75,7 +76,7 @@ export default class PopulationState {
   }
 
   @computed get resourcesPerSecond () {
-    return _(this.units.slice())
+    let res = _(this.units.slice())
       .map('resourcesDiff')
       .flatten()
       .reduce((res, [key, val]) => {
@@ -86,6 +87,13 @@ export default class PopulationState {
         }
         return res
       }, {})
+    const foodId = Resource.types.FOOD.id
+    if (res[foodId]) {
+      res[foodId] -= this.totalPopulationAmount
+    } else {
+      res[foodId] = -this.totalPopulationAmount
+    }
+    return res
   }
 
   @action
