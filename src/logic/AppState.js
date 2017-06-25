@@ -10,31 +10,45 @@ import Resource from './Resource'
 export default class AppState {
   @persist('object', ResourceState)
   @observable
-  resourcesState = new ResourceState()
+  resourcesState
 
   @persist('object', PopulationState)
   @observable
-  populationState = new PopulationState(this)
+  populationState
 
   @persist('object', BuildingState)
   @observable
-  buildingState = new BuildingState()
+  buildingState
 
-  @persist @observable tickPerSecond = 0
-  @persist @observable trainingMultiplier = 1
+  @persist @observable tickPerSecond
+  @persist @observable trainingMultiplier
 
   constructor () {
+    this.init()
     this.hydrate = create({ storage: window.localStorage })
     this.sync()
-    this.populationState.units[3].amount += 25
-    this.populationState.units[0].amount += 25
     // this.doTick()
     this.runResourceTicks()
     this.runTrainingTicks()
   }
 
+  init () {
+    this.resourcesState = new ResourceState()
+    this.buildingState = new BuildingState()
+    this.populationState = new PopulationState(this)
+    this.tickPerSecond = 0
+    this.trainingMultiplier = 1
+    this.initPopulation()
+  }
+
+  @action
+  initPopulation () {
+    this.populationState.units[3].amount += 25
+    this.populationState.units[0].amount += 25
+  }
+
   sync () {
-    // this.hydrate('save', this)
+    this.hydrate('save', this)
   }
 
   runResourceTicks () {
@@ -55,6 +69,29 @@ export default class AppState {
       this.populationState.mortalityFoodSet(1)
     }
     this.populationState.applyMortality()
+    this.doEvents()
+  }
+
+  doEvents () {
+    if (_.random(0, 30) === 0) {
+      const events = [
+        ['Some migrants have arrived', () => {
+          this.populationState.unitsMap.get('IDLE').amount += _.random(1, 15)
+        }],
+        ['Deluge destroyed some of your resources', () => {
+          const res = {
+            'FOOD': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('FOOD').amount / _.random(2, 10))),
+            'MONEY': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('MONEY').amount / _.random(2, 10))),
+            'WOOD': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('WOOD').amount / _.random(2, 10))),
+            'GEMS': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('GEMS').amount / _.random(2, 10)))
+          }
+          this.resourcesState.applyDiff(res)
+        }]
+      ]
+      const evt = _.sample(events)
+      this.msg.show(evt[0])
+      evt[1]()
+    }
   }
 
   runTrainingTicks () {
@@ -139,10 +176,10 @@ export default class AppState {
   attack (power) {
     if (power / 500 > Math.random()) {
       const res = {
-        'FOOD': Math.round(_.random(0, power / 10)),
-        'MONEY': Math.round(_.random(0, power / 10)),
-        'WOOD': Math.round(_.random(0, power / 10)),
-        'GEMS': Math.round(_.random(0, power / 10))
+        'FOOD': Math.round(_.random(0, power * 10)),
+        'MONEY': Math.round(_.random(0, power * 10)),
+        'WOOD': Math.round(_.random(0, power * 10)),
+        'GEMS': Math.round(_.random(0, power * 10))
       }
       const resStr = L(res).map((val, key) => `${val} ${_.capitalize(key)}`).toArray().join(', ')
       this.resourcesState.applyDiff(res)

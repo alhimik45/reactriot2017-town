@@ -236,6 +236,7 @@ export default class PopulationState {
       this.unitsMap.get(bad).amount += diff
     })
     this.criminalBack(coef)
+    this.prisonersBack(coef)
   }
 
   criminalBack (coef) {
@@ -243,6 +244,14 @@ export default class PopulationState {
     const idle = this.unitsMap.get('IDLE')
     const diff = crim.amount - this.applyCoef(crim.amount, coef)
     crim.amount -= diff
+    idle.amount += diff
+  }
+
+  prisonersBack (coef) {
+    const pris = this.unitsMap.get('PRISONER')
+    const idle = this.unitsMap.get('IDLE')
+    const diff = pris.amount - this.applyCoef(pris.amount, coef / 4)
+    pris.amount -= diff
     idle.amount += diff
   }
 }

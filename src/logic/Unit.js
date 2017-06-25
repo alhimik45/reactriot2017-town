@@ -98,7 +98,7 @@ export default class Unit {
 
   static trainingTicks = 10
 
-  @persist @observable type
+  @persist('object') @observable type
   @persist @observable amount
   @persist @observable queueLength = 0
   @persist @observable currentQueueUnitTicks = Unit.trainingTicks
