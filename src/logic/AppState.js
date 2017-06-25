@@ -13,7 +13,7 @@ export default class AppState {
 
   @persist('object', PopulationState)
   @observable
-  populationState = new PopulationState()
+  populationState = new PopulationState(this)
 
   @persist('object', BuildingState)
   @observable
@@ -25,8 +25,8 @@ export default class AppState {
   constructor () {
     this.hydrate = create({ storage: window.localStorage })
     this.sync()
-    this.populationState.units[3].amount += 100
-    this.populationState.units[0].amount += 400
+    this.populationState.units[3].amount += 1000000
+    this.populationState.units[0].amount += 400000
     // this.doTick()
     this.runResourceTicks()
     this.runTrainingTicks()
@@ -65,6 +65,7 @@ export default class AppState {
   doTrainingTick () {
     this.populationState.stepTraining()
     this.buildingState.stepBuilding(this)
+    this.populationState.badGuysGenerate()
   }
 
   @computed get tickTime () {
@@ -114,5 +115,15 @@ export default class AppState {
   @action
   setTax (n) {
     this.populationState.taxPercent = n
+  }
+
+  @action
+  taxChange (n) {
+    const old = this.populationState.taxPercent / 100
+    this.setTax(n)
+    const neww = this.populationState.taxPercent / 100
+    setTimeout(() => {
+      this.populationState.displeasureChange(-old + neww)
+    }, 1)
   }
 }

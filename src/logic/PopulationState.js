@@ -8,13 +8,17 @@ import Resource from './Resource'
 export default class PopulationState {
   @persist('map', Unit) @observable unitsMap =
     observable.map(L(Unit.types)
-      .map(type => [type.id, new Unit(type, 10000)]).toObject())
+      .map(type => [type.id, new Unit(type, 0)]).toObject())
 
   @persist @observable mortalityCoef = 0.03
   @persist @observable mortalityFoodCoef = 1
   @persist @observable displeasureCoef = 0.01
   @persist @observable criminalCoef = 0.01
   @persist @observable taxPercent = 20
+
+  constructor (appState) {
+    this.appState = appState
+  }
 
   getProfession (profession) {
     return L(this.units.slice())
@@ -23,6 +27,13 @@ export default class PopulationState {
 
   @computed get mortalityVal () {
     return this.mortalityCoef * this.mortalityFoodCoef
+  }
+
+  @computed get displeasureVal () {
+    if (this.mortalityFoodCoef > 1 && this.displeasureCoef < 0) {
+      return 0
+    }
+    return this.displeasureCoef * this.mortalityFoodCoef / 2
   }
 
   @computed get mortality () {
@@ -35,9 +46,9 @@ export default class PopulationState {
 
   @computed get displeasure () {
     return {
-      name: this.displeasureCoef >= 0 ? 'Anger' : 'Joy',
-      imgSrc: this.displeasureCoef >= 0 ? '/static/anger.svg' : '/static/happiness.svg',
-      amount: _.round(Math.abs(this.displeasureCoef * 100), 3)
+      name: this.displeasureVal >= 0 ? 'Anger' : 'Joy',
+      imgSrc: this.displeasureVal >= 0 ? '/static/anger.svg' : '/static/happiness.svg',
+      amount: _.round(Math.abs(this.displeasureVal * 100), 3)
     }
   }
 
@@ -46,7 +57,7 @@ export default class PopulationState {
   }
 
   @computed get tax () {
-    return Math.max(Math.round(this.totalPopulationAmount / 1000 * this.taxPercent), 1)
+    return Math.max(Math.round(this.totalPopulationAmount / 1000 * this.taxPercent * 1000), 1)
   }
 
   @computed get population () {
@@ -83,6 +94,12 @@ export default class PopulationState {
 
   @computed get soldiers () {
     return this.getProfession('soldier').toArray()
+  }
+
+  @computed get soldiersAndWorkers () {
+    return this.getProfession('soldier')
+      .concat(this.getProfession('worker'))
+      .toArray()
   }
 
   @computed get soldiersCount () {
@@ -132,12 +149,16 @@ export default class PopulationState {
     this.unitsMap.get(Unit.types.IDLE.id).amount += count
   }
 
+  applyCoef (val, coef) {
+    return Math.max(0, val - Math.round(
+        (Math.random() < coef * 5) * Math.max(
+          val * (coef ** 2), 1)))
+  }
+
   @action
   applyMortality () {
     this.units.forEach(unit => {
-      unit.amount = Math.max(0, unit.amount - Math.round(
-          (Math.random() < this.mortalityVal * 5) * Math.max(
-            unit.amount * (this.mortalityVal ** 2), 1)))
+      unit.amount = this.applyCoef(unit.amount, this.mortalityVal)
     })
   }
 
@@ -154,7 +175,17 @@ export default class PopulationState {
 
   @action
   displeasureChange (val) {
+    const needR = this.displeasureVal < 0.8
+    const needA = this.displeasureVal < 0.5
     this.displeasureCoef = this.displeasureCoef + val
+    if (needR && this.displeasureVal > 0.8) {
+      this.appState.msg.show('RIOT has started')
+      this.badGuysGenerate()
+      return
+    }
+    if (needA && this.displeasureVal > 0.5) {
+      this.appState.msg.show('High risk of RIOT!')
+    }
   }
 
   @action
@@ -169,5 +200,16 @@ export default class PopulationState {
         most = rest
       }
     }
+  }
+
+  @action
+  badGuysGenerate () {
+    const coef = this.criminalCoef + Math.max(0, this.displeasureVal) / 2 + this.mortalityVal / 2
+    const bad = this.displeasureVal > 0.8 ? 'RIOTER' : 'CRIMINAL'
+    this.soldiersAndWorkers.forEach(unit => {
+      const diff = unit.amount - this.applyCoef(unit.amount, coef)
+      unit.amount -= diff
+      this.unitsMap.get(bad).amount += diff
+    })
   }
 }

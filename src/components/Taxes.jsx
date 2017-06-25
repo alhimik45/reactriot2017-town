@@ -10,7 +10,8 @@ export default class Taxes extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     value: PropTypes.number,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onChangeComplete: PropTypes.func
   }
 
   constructor (props, context) {
@@ -40,7 +41,7 @@ export default class Taxes extends Component {
           orientation='horizontal'
           tooltip={false}
           onChange={this.handleChange}
-          onChangeComplete={this.props.onChange && this.props.onChange(this.state.value)}
+          onChangeComplete={this.props.onChangeComplete && this.props.onChangeComplete(this.state.value)}
           min={0}
           max={100}
           labels={{ 0: '0%', 100: '100%' }}

@@ -70,7 +70,7 @@ export default class App extends Component {
               <UnitGrid
                 canBuy={u => appState.canBuy(u)}
                 onTrain={u => appState.buyUnit(u)}
-                units={appState.populationState.soldiers.concat(appState.populationState.workers)} />
+                units={appState.populationState.soldiersAndWorkers} />
             </b.Col>
           </b.Row>
           <b.Row>
@@ -81,7 +81,7 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
         </b.Col>
-        <b.Col xs={6}>
+        <b.Col xs={5}>
           <b.Row>
             <ModalHelp />
             <BigP>
@@ -110,7 +110,7 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
         </b.Col>
-        <b.Col xs={3}>
+        <b.Col xs={4}>
           <b.Row>
             <b.Col xs={12}>
               <BigP>
@@ -182,7 +182,10 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              <Taxes value={appState.populationState.taxPercent} onChange={(n) => appState.setTax(n)} />
+              <Taxes
+                value={appState.populationState.taxPercent}
+                onChangeComplete={n => appState.taxChange(n)}
+                onChange={n => appState.setTax(n)} />
             </b.Col>
           </b.Row>
         </b.Col>
