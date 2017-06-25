@@ -48,7 +48,7 @@ export default class AppState {
 
   @action
   doResourceTick () {
-    this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
+    this.resourcesState.applyDiff(this.populationState.resourcesPerSecond(1))
     if (this.resourcesState.resourcesMap.get(Resource.types.FOOD.id).amount === 0) {
       this.populationState.mortalityFoodSet(10)
     } else {
@@ -81,7 +81,7 @@ export default class AppState {
   }
 
   @computed get resourcesSpeed () {
-    return L(this.populationState.resourcesPerSecond)
+    return L(this.populationState.resourcesPerSecond(0))
       .map((val, key) => {
         return {
           name: this.resourcesState.resourcesMap.get(key).name,

@@ -151,10 +151,11 @@ export default class Unit {
       return []
     }
     return L(this.type.resourceEffect.slice()).map(([key, val, lam]) => {
+      let res = [key, val * this.amount]
       if (_.isFunction(lam)) {
-        val = lam()
+        res.push(lam() * this.amount)
       }
-      return [key, val * this.amount]
+      return res
     }).toArray()
   }
 
