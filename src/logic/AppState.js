@@ -64,7 +64,7 @@ export default class AppState {
   }
 
   @computed get tax () {
-    return Math.round(this.populationState.totalPopulationAmount / 1000 * this.taxPercent)
+    return Math.max(Math.round(this.populationState.totalPopulationAmount / 10000 * this.taxPercent), 1)
   }
 
   @computed get tickTime () {
