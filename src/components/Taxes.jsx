@@ -3,7 +3,9 @@ import Slider from 'react-rangeslider'
 import PropTypes from 'prop-types'
 import g from 'glamorous'
 import 'react-rangeslider/lib/index.css'
+import { observer } from 'mobx-react'
 
+@observer
 export default class Taxes extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
