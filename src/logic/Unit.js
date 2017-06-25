@@ -60,12 +60,11 @@ export default class Unit {
     },
     GENERAL: {
       profession: 'soldier',
-      power: 0,
+      power: 30,
       cost: [
         [Resource.types.FOOD.id, 20],
         [Resource.types.MONEY.id, 20]
-      ],
-      description: 'General significantly increases power of army, but too many generals can lead to unrest and RIOT'
+      ]
     },
 
     RIOTER: {

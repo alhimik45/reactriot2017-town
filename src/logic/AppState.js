@@ -50,9 +50,9 @@ export default class AppState {
   doResourceTick () {
     this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
     if (this.resourcesState.resourcesMap.get(Resource.types.FOOD.id).amount === 0) {
-      this.populationState.mortalityFoodCoef = 10
+      this.populationState.mortalityFoodSet(10)
     } else {
-      this.populationState.mortalityFoodCoef = 1
+      this.populationState.mortalityFoodSet(1)
     }
     this.populationState.applyMortality()
   }
@@ -127,9 +127,9 @@ export default class AppState {
 
   @action
   taxChange (n) {
-    const old = this.populationState.taxPercent / 100
+    const old = this.populationState.taxPercent / 150
     this.setTax(n)
-    const neww = this.populationState.taxPercent / 100
+    const neww = this.populationState.taxPercent / 150
     setTimeout(() => {
       this.populationState.displeasureChange(-old + neww)
     }, 1)
