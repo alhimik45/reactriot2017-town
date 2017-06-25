@@ -1,6 +1,7 @@
 import { observable, computed, action, createTransformer } from 'mobx'
 import { create, persist } from 'mobx-persist'
 import ResourceState from './ResourceState'
+import Resource from './Resource'
 import PopulationState from './PopulationState'
 import BuildingState from './BuildingState'
 import L from 'lazy.js'
@@ -20,7 +21,7 @@ export default class AppState {
 
   @persist @observable tickPerSecond = 1
   @persist @observable trainingMultiplier = 1
-  @persist @observable tax = 20
+  @persist @observable taxPercent = 20
 
   constructor () {
     this.hydrate = create({ storage: window.localStorage })
@@ -46,7 +47,7 @@ export default class AppState {
   @action
   doResourceTick () {
     this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
-    this.resourcesState.calcTax(this.tax, this.populationState.totalPopulationAmount)
+    this.resourcesState.applyTax(this.tax)
   }
 
   runTrainingTicks () {
@@ -61,6 +62,10 @@ export default class AppState {
     this.populationState.stepTraining()
   }
 
+  @computed get tax () {
+    return Math.round(this.populationState.totalPopulationAmount / 1000 * this.taxPercent)
+  }
+
   @computed get tickTime () {
     return 1000 / this.tickPerSecond
   }
@@ -73,6 +78,10 @@ export default class AppState {
           imgSrc: this.resourcesState.resourcesMap.get(key).imgSrc,
           amount: val + ' u/sec'
         }
+      }).concat({
+        name: this.resourcesState.resourcesMap.get(Resource.types.MONEY.id).name,
+        imgSrc: this.resourcesState.resourcesMap.get(Resource.types.MONEY.id).imgSrc,
+        amount: this.tax + ' u/sec'
       })
   }
 
@@ -98,6 +107,6 @@ export default class AppState {
 
   @action
   setTax (n) {
-    this.tax = n
+    this.taxPercent = n
   }
 }

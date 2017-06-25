@@ -78,8 +78,10 @@ export default class App extends Component {
             </BigP>
             <b.Col xs={12}>
               <ElementDivider>
-                {L(appState.resourcesSpeed).map(stats =>
-                  <StatsRow stats={stats} />
+                {L(appState.resourcesSpeed).map((stats, i) =>
+                  <StatsRow
+                    key={i}
+                    stats={stats} />
                 ).toArray()}
               </ElementDivider>
             </b.Col>
@@ -165,7 +167,7 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              <Taxes value={appState.tax} onChange={(n) => appState.setTax(n)} />
+              <Taxes value={appState.taxPercent} onChange={(n) => appState.setTax(n)} />
             </b.Col>
           </b.Row>
         </b.Col>

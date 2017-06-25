@@ -28,7 +28,7 @@ export default class ResourceState {
     })
   }
 
-  @action calcTax (tax, population) {
-    this.resourcesMap.get(Resource.types.MONEY.id).amount += Math.round(population / 1000 * tax)
+  @action applyTax (tax) {
+    this.resourcesMap.get(Resource.types.MONEY.id).amount += tax
   }
 }
