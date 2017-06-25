@@ -77,11 +77,24 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
           <b.Row>
-            <b.Col xs={12} {...css(fullHeight, borderRight)}>
+            <b.Col xs={12} {...css(borderBot, borderRight)}>
               <g.P fontSize='24px'>
                 War
               </g.P>
               <ModalWar appState={appState} />
+            </b.Col>
+          </b.Row>
+          <b.Row>
+            <b.Col xs={12} {...css(fullHeight, borderRight)}>
+              <BigP>
+                Speed
+              </BigP>
+              <Multiplier
+                tip='How many ticks per second'
+                elements={[0, 1, 2, 3]}
+                current={appState.tickPerSecond}
+                nameFormatter={n => n + 'x'}
+                onChange={n => appState.setSpeed(n)} />
             </b.Col>
           </b.Row>
         </b.Col>
@@ -180,20 +193,6 @@ export default class App extends Component {
                 <StatsRow stats={appState.populationState.displeasure} />
                 <StatsRow stats={appState.populationState.populationStat} />
               </ElementDivider>
-            </b.Col>
-          </b.Row>
-          <b.Row />
-          <b.Row>
-            <b.Col xs={12} {...css(borderBot, borderLeft)}>
-              <BigP>
-                Speed
-              </BigP>
-              <Multiplier
-                tip='How many ticks per second'
-                elements={[0, 1, 2, 3]}
-                current={appState.tickPerSecond}
-                nameFormatter={n => n + 'x'}
-                onChange={n => appState.setSpeed(n)} />
             </b.Col>
           </b.Row>
           <b.Row>
