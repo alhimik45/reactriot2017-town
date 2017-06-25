@@ -56,25 +56,25 @@ export default class Unit {
     RIOTER: {
       profession: 'none',
       resourceEffect: [
-        [Resource.types.FOOD.id, () => _.random(-12, 3)],
-        [Resource.types.WOOD.id, () => _.random(-12, 3)],
-        [Resource.types.GEMS.id, () => _.random(-12, 3)]
+        [Resource.types.FOOD.id, -5],
+        [Resource.types.WOOD.id, -5],
+        [Resource.types.GEMS.id, -5]
       ]
     },
     CRIMINAL: {
       profession: 'none',
       resourceEffect: [
-        [Resource.types.FOOD.id, () => _.random(-3, 1)],
-        [Resource.types.WOOD.id, () => _.random(-3, 1)],
-        [Resource.types.GEMS.id, () => _.random(-3, 1)]
+        [Resource.types.FOOD.id, -1],
+        [Resource.types.WOOD.id, -1],
+        [Resource.types.GEMS.id, -1]
       ]
     },
     PRISONER: {
       profession: 'none',
       resourceEffect: [
-        [Resource.types.FOOD.id, () => _.random(-1, 6)],
-        [Resource.types.WOOD.id, () => _.random(-1, 6)],
-        [Resource.types.GEMS.id, () => _.random(-1, 6)]
+        [Resource.types.FOOD.id, 3],
+        [Resource.types.WOOD.id, 3],
+        [Resource.types.GEMS.id, 3]
       ]
     }
   }).map((val, key) => {
