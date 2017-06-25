@@ -1,39 +1,38 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import * as b from 'react-bootstrap'
 import { css } from 'glamor'
+import { observer, PropTypes as MPropTypes } from 'mobx-react'
 import { paddingSides5 } from './../styles'
 
+@observer
 export default class StatsRow extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    amount: PropTypes.string.isRequired,
-    imgSrc: PropTypes.string,
-    alert: PropTypes.bool
+    stats: MPropTypes.objectOrObservableObject.isRequired
   }
 
   render () {
+    const {stats} = this.props
     return (
       <b.Row {...css({
-        color: this.props.alert ? 'red' : ''
+        color: stats.alert ? 'red' : ''
       })}>
         <b.Col
           {...paddingSides5}
           xs={8}
           className='text-left'>
-          {this.props.imgSrc &&
+          {stats.imgSrc &&
           <img
             width={15}
-            src={this.props.imgSrc} />}
+            src={stats.imgSrc} />}
           &nbsp;
-          {this.props.name}
+          {stats.name}
         </b.Col>
         <b.Col
           {...paddingSides5}
           xs={4}
           className='text-right'>
-          {this.props.amount}
+          {stats.amount}
         </b.Col>
       </b.Row>
     )

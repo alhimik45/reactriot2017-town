@@ -1,31 +1,29 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { PropTypes as MPropTypes, observer } from 'mobx-react'
 import { css } from 'glamor'
 import * as g from 'glamorous'
 import * as b from 'react-bootstrap'
 import Disabler from './Disabler'
 import ImageProgressBar from './ImageProgressBar'
 
+@observer
 export default class Unit extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    cost: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    imgSrc: PropTypes.string.isRequired,
+    unit: MPropTypes.observableObject.isRequired,
     trainingAvailable: PropTypes.bool,
-    trainingProgress: PropTypes.number,
-    queueSize: PropTypes.number,
     onTrain: PropTypes.func
   }
 
   render () {
-    const tooltip = <b.Tooltip id={this.props.name + 'tooltip'}>
-      <g.B>{this.props.name}</g.B>
+    const { unit } = this.props
+    const tooltip = <b.Tooltip id={unit.name + 'tooltip'}>
+      <g.B>{unit.name}</g.B>
       <br />
       <g.B>Cost:</g.B>
-      {this.props.cost}<br />
-      {this.props.description}
+      {unit.costStr}<br />
+      {unit.description}
     </b.Tooltip>
     return (
       <Disabler enabled={this.props.trainingAvailable}>
@@ -33,10 +31,10 @@ export default class Unit extends Component {
           <ImageProgressBar
             {...css({ width: '70px', height: '70px' })}
             onClick={() => this.props.trainingAvailable && this.props.onTrain && this.props.onTrain()}
-            imgSrc={this.props.imgSrc}
-            progress={this.props.trainingProgress}>
+            imgSrc={unit.imgSrc}
+            progress={unit.queueProgress}>
             {
-              this.props.queueSize
+              unit.queueLength
                 ? <g.Span
                   padding='2px'
                   margin='2px'
@@ -44,7 +42,7 @@ export default class Unit extends Component {
                   fontSize='20px'
                   color='white'
                   backgroundColor='rgba(10,10,10,0.5)'>
-                  {this.props.queueSize}
+                  {unit.queueLength}
                 </g.Span>
                 : null
             }

@@ -29,7 +29,7 @@ export default class App extends Component {
       .zip(this.props.appState.populationState.soldiers)
       .flatten()
       .concat([
-        {name: '', amount: ''},
+        { name: '', amount: '' },
         this.props.appState.populationState.soldiersPower
       ])
       .toArray()
@@ -60,7 +60,7 @@ export default class App extends Component {
               <UnitGrid
                 canBuy={u => appState.canBuy(u)}
                 onTrain={u => appState.buyUnit(u)}
-                units={this.props.appState.populationState.soldiers.concat(this.props.appState.populationState.workers)} />
+                units={appState.populationState.soldiers.concat(appState.populationState.workers)} />
             </b.Col>
           </b.Row>
           <b.Row>
@@ -79,17 +79,10 @@ export default class App extends Component {
             <b.Col xs={12}>
               <b.Col xs={6}>
                 <ElementDivider>
-                  <StatsRow name={this.props.appState.populationState.growth.name}
-                    imgSrc={this.props.appState.populationState.growth.imgSrc}
-                    amount={`${this.props.appState.populationState.growth.amount}`} />
-                  <StatsRow name={this.props.appState.populationState.mortality.name}
-                    imgSrc={this.props.appState.populationState.mortality.imgSrc}
-                    amount={`${this.props.appState.populationState.mortality.amount}`} />
-                  <StatsRow name={this.props.appState.populationState.displeasure.name}
-                    imgSrc={this.props.appState.populationState.displeasure.imgSrc}
-                    amount={`${this.props.appState.populationState.displeasure.amount}`} />
-                  <StatsRow name='Total' imgSrc='/static/total.svg'
-                    amount={`${this.props.appState.populationState.totalPopulationAmount}`} />
+                  <StatsRow stats={appState.populationState.growth} />
+                  <StatsRow stats={appState.populationState.mortality} />
+                  <StatsRow stats={appState.populationState.displeasure} />
+                  <StatsRow stats={appState.populationState.populationStat} />
                 </ElementDivider>
               </b.Col>
               <b.Col xs={6}>
@@ -102,7 +95,7 @@ export default class App extends Component {
               <BigP>
                 Buildings
               </BigP>
-              <BuildingGrid buildings={this.props.appState.buildingState.buildings} />
+              <BuildingGrid buildings={appState.buildingState.buildings} />
             </b.Col>
           </b.Row>
         </b.Col>
@@ -113,12 +106,10 @@ export default class App extends Component {
                 Resources
               </BigP>
               <ElementDivider>
-                {this.props.appState.resourcesState.resources.map((e, i) =>
+                {appState.resourcesState.resources.map((e, i) =>
                   <StatsRow
                     key={i}
-                    name={e.name}
-                    imgSrc={e.imgSrc}
-                    amount={`${e.amount}`} />
+                    stats={e} />
                 )}
               </ElementDivider>
             </b.Col>
@@ -129,12 +120,10 @@ export default class App extends Component {
                 Population
               </BigP>
               <ElementDivider>
-                {this.props.appState.populationState.population.map((e, i) =>
+                {appState.populationState.population.map((e, i) =>
                   <StatsRow
                     key={i}
-                    name={e.name}
-                    imgSrc={e.imgSrc}
-                    amount={`${e.amount}`} />
+                    stats={e} />
                 )}
               </ElementDivider>
               <br />
@@ -150,9 +139,7 @@ export default class App extends Component {
                 {this.getProfessionsOneByOne().map((e, i) =>
                   <StatsRow
                     key={i}
-                    name={e.name}
-                    imgSrc={e.imgSrc}
-                    amount={`${e.amount}`} />
+                    stats={e} />
                 )}
               </ElementDivider>
             </b.Col>

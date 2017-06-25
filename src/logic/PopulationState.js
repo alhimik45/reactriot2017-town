@@ -42,6 +42,14 @@ export default class PopulationState {
       ).toArray()
   }
 
+  @computed get populationStat () {
+    return {
+      name: 'Total',
+      imgSrc: '/static/total.svg',
+      amount: this.totalPopulationAmount
+    }
+  }
+
   @computed get totalPopulationAmount () {
     return L(this.population).sum(m => m.amount)
   }

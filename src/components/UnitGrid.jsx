@@ -27,13 +27,8 @@ export default class UnitGrid extends Component {
           {this.props.units.map((unit, i) =>
             <Unit
               key={i}
+              unit={unit}
               trainingAvailable={this.props.canBuy(unit)}
-              trainingProgress={unit.queueProgress}
-              queueSize={unit.queueLength}
-              name={unit.name}
-              cost={unit.costStr}
-              description={unit.description}
-              imgSrc={unit.imgSrc}
               onTrain={() => this.props.onTrain(unit)} />
           )}
         </ElementDivider>
