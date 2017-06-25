@@ -45,7 +45,7 @@ export default class Building {
         [Resource.types.GEMS.id, 300]
       ],
       onBuilt: appState => {
-        appState.populationState.criminalCoef += 0.01
+        appState.populationState.criminalCoef += 0.001
         appState.populationState.displeasureChange(-0.005)
       },
       description: 'Decreases Anger'

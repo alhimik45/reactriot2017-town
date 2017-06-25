@@ -80,15 +80,17 @@ export default class Unit {
       resourceEffect: [
         [Resource.types.FOOD.id, -1],
         [Resource.types.WOOD.id, -1],
-        [Resource.types.GEMS.id, -1]
+        [Resource.types.GEMS.id, -1],
+        () => { return _.random(-1, 0) }
       ]
     },
     PRISONER: {
       profession: 'none',
       resourceEffect: [
-        [Resource.types.FOOD.id, 3],
-        [Resource.types.WOOD.id, 3],
-        [Resource.types.GEMS.id, 3]
+        [Resource.types.FOOD.id, 2],
+        [Resource.types.WOOD.id, 2],
+        [Resource.types.GEMS.id, 2],
+        () => { return _.random(0, 2) }
       ]
     }
   }).map((val, key) => {
@@ -150,9 +152,9 @@ export default class Unit {
     if (!this.type.resourceEffect) {
       return []
     }
-    return L(this.type.resourceEffect.slice()).map(([key, val, ...lam]) => {
-      if (_.isFunction(lam[0])) {
-        val = lam[0]()
+    return L(this.type.resourceEffect.slice()).map(([key, val, lam]) => {
+      if (_.isFunction(lam)) {
+        val = lam()
       }
       return [key, val * this.amount]
     }).toArray()
