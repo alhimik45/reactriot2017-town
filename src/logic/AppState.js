@@ -25,8 +25,8 @@ export default class AppState {
   constructor () {
     this.hydrate = create({ storage: window.localStorage })
     this.sync()
-    this.populationState.units[3].amount += 1000000
-    this.populationState.units[0].amount += 400000
+    this.populationState.units[3].amount += 100
+    this.populationState.units[0].amount += 40
     // this.doTick()
     this.runResourceTicks()
     this.runTrainingTicks()

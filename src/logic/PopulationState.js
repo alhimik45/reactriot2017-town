@@ -57,7 +57,7 @@ export default class PopulationState {
   }
 
   @computed get tax () {
-    return Math.max(Math.round(this.totalPopulationAmount / 1000 * this.taxPercent * 1000), 1)
+    return Math.max(Math.round(this.totalPopulationAmount / 1000 * this.taxPercent), 1)
   }
 
   @computed get population () {
@@ -99,6 +99,12 @@ export default class PopulationState {
   @computed get soldiersAndWorkers () {
     return this.getProfession('soldier')
       .concat(this.getProfession('worker'))
+      .toArray()
+  }
+
+  @computed get nonSpecialUnits () {
+    return L(this.units.slice())
+      .filter(m => m.type.profession === 'worker' || m.type.profession === 'soldier' || m.type.id === 'IDLE')
       .toArray()
   }
 
@@ -206,7 +212,7 @@ export default class PopulationState {
   badGuysGenerate () {
     const coef = this.criminalCoef + Math.max(0, this.displeasureVal) / 2 + this.mortalityVal / 2
     const bad = this.displeasureVal > 0.8 ? 'RIOTER' : 'CRIMINAL'
-    this.soldiersAndWorkers.forEach(unit => {
+    this.nonSpecialUnits.forEach(unit => {
       const diff = unit.amount - this.applyCoef(unit.amount, coef)
       unit.amount -= diff
       this.unitsMap.get(bad).amount += diff
