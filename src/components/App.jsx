@@ -13,6 +13,7 @@ import UnitGrid from './UnitGrid'
 import DevTools from 'mobx-react-devtools'
 import BuildingGrid from './BuildingGrid'
 import AlertContainer from 'react-alert'
+import ModalHelp from './ModalHelp'
 
 const BigP = g.p({
   fontSize: '24px'
@@ -82,6 +83,7 @@ export default class App extends Component {
         </b.Col>
         <b.Col xs={6}>
           <b.Row>
+            <ModalHelp />
             <BigP>
               Resource production rate
             </BigP>
