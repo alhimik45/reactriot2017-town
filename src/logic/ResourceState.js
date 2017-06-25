@@ -27,8 +27,4 @@ export default class ResourceState {
       this.resourcesMap.get(key).amount = Math.max(this.resourcesMap.get(key).amount - val * count, 0)
     })
   }
-
-  @action applyTax (tax) {
-    this.resourcesMap.get(Resource.types.MONEY.id).amount += tax
-  }
 }

@@ -12,6 +12,7 @@ export default class PopulationState {
 
   @persist @observable mortality = { name: 'Mortality', imgSrc: '/static/mortality.svg', amount: 0 };
   @persist @observable displeasure = { name: 'Anger', imgSrc: '/static/anger.svg', amount: 0 };
+  @persist @observable taxPercent = 20
 
   getProfession (profession) {
     return L(this.units.slice())
@@ -28,6 +29,10 @@ export default class PopulationState {
 
   @computed get units () {
     return this.unitsMap.values()
+  }
+
+  @computed get tax () {
+    return Math.max(Math.round(this.totalPopulationAmount / 1000 * this.taxPercent), 1)
   }
 
   @computed get population () {
@@ -88,10 +93,17 @@ export default class PopulationState {
         return res
       }, {})
     const foodId = Resource.types.FOOD.id
+    const moneyId = Resource.types.MONEY.id
     if (res[foodId]) {
       res[foodId] -= this.totalPopulationAmount
     } else {
       res[foodId] = -this.totalPopulationAmount
+    }
+    const soldiersMoneyChange = Math.round(this.soldiersPower.amount / 10)
+    if (res[moneyId]) {
+      res[moneyId] -= this.tax - soldiersMoneyChange
+    } else {
+      res[moneyId] = this.tax - soldiersMoneyChange
     }
     return res
   }

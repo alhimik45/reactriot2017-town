@@ -171,7 +171,7 @@ export default class App extends Component {
           </b.Row>
           <b.Row>
             <b.Col xs={12}>
-              <Taxes value={appState.taxPercent} onChange={(n) => appState.setTax(n)} />
+              <Taxes value={appState.populationState.tax} onChange={(n) => appState.setTax(n)} />
             </b.Col>
           </b.Row>
         </b.Col>

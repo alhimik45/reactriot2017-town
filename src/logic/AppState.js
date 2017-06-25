@@ -1,7 +1,6 @@
-import { observable, computed, action, createTransformer } from 'mobx'
+import { action, computed, createTransformer, observable } from 'mobx'
 import { create, persist } from 'mobx-persist'
 import ResourceState from './ResourceState'
-import Resource from './Resource'
 import PopulationState from './PopulationState'
 import BuildingState from './BuildingState'
 import L from 'lazy.js'
@@ -21,13 +20,12 @@ export default class AppState {
 
   @persist @observable tickPerSecond = 1
   @persist @observable trainingMultiplier = 1
-  @persist @observable taxPercent = 20
 
   constructor () {
     this.hydrate = create({ storage: window.localStorage })
     this.sync()
-    this.populationState.units[3].amount++
-    this.populationState.units[0].amount += 10000
+    this.populationState.units[3].amount += 100
+    this.populationState.units[0].amount += 10
     // this.doTick()
     this.runResourceTicks()
     this.runTrainingTicks()
@@ -47,7 +45,6 @@ export default class AppState {
   @action
   doResourceTick () {
     this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
-    this.resourcesState.applyTax(this.tax)
   }
 
   runTrainingTicks () {
@@ -63,10 +60,6 @@ export default class AppState {
     this.buildingState.stepBuilding(this)
   }
 
-  @computed get tax () {
-    return Math.max(Math.round(this.populationState.totalPopulationAmount / 10000 * this.taxPercent), 1)
-  }
-
   @computed get tickTime () {
     return 1000 / this.tickPerSecond
   }
@@ -79,10 +72,6 @@ export default class AppState {
           imgSrc: this.resourcesState.resourcesMap.get(key).imgSrc,
           amount: val + ' u/sec'
         }
-      }).concat({
-        name: this.resourcesState.resourcesMap.get(Resource.types.MONEY.id).name,
-        imgSrc: this.resourcesState.resourcesMap.get(Resource.types.MONEY.id).imgSrc,
-        amount: this.tax + ' u/sec'
       })
   }
 
@@ -117,6 +106,6 @@ export default class AppState {
 
   @action
   setTax (n) {
-    this.taxPercent = n
+    this.populationState.taxPercent = n
   }
 }
