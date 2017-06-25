@@ -28,10 +28,12 @@ export default class Building {
         [Resource.types.GEMS.id, 1]
       ],
       onBuilt: appState => {
-        appState.populationState.criminalCoef += 0.01
-        appState.populationState.displeasureChange(0.01)
+        appState.populationState.criminalCoef += 0.1
+        appState.populationState.displeasureChange(0.1)
+        appState.resourcesState.resourcesMap.get('MONEY').amount +=
+          Math.round(appState.resourcesState.resourcesMap.get('MONEY').amount * 0.4)
       },
-      description: 'Gives additional money, but increases Anger and Criminals'
+      description: 'Instantly increases money in 40%, but increases Anger and Criminals'
     },
     SHOP: {
       cost: [
@@ -53,10 +55,11 @@ export default class Building {
       ],
       onBuilt: appState => {
         appState.populationState.criminalCoef += 0.05
+        appState.populationState.mortalityCoef += 0.002
         appState.resourcesState.resourcesMap.get('ELEC').amount += 100
         appState.populationState.displeasureChange(0.001)
       },
-      description: 'Gives Electricity, sligntly increases Anger and Criminals'
+      description: 'Gives Electricity, sligntly increases Anger, Criminals and Mortality'
     },
     PUB: {
       cost: [
@@ -68,6 +71,53 @@ export default class Building {
         appState.populationState.displeasureChange(-0.05)
       },
       description: 'Seriously decreases Anger, but increases Criminals'
+    },
+    REACTOR: {
+      cost: [
+        [Resource.types.GEMS.id, 10],
+        [Resource.types.MONEY.id, 10]
+      ],
+      onBuilt: appState => {
+        appState.resourcesState.resourcesMap.get('ELEC').amount += 1000
+        appState.populationState.displeasureChange(-0.05)
+      },
+      description: 'Gives many Electricity and decreases chance of RIOT ;)'
+    },
+    HOSPITAL: {
+      cost: [
+        [Resource.types.GEMS.id, 10],
+        [Resource.types.ELEC.id, 150],
+        [Resource.types.MONEY.id, 10]
+      ],
+      onBuilt: appState => {
+        appState.populationState.mortalityCoef = Math.max(appState.populationState.mortalityCoef - 0.005, 0)
+      },
+      description: 'Descreases mortality'
+    },
+    POLICE: {
+      cost: [
+        [Resource.types.GEMS.id, 10],
+        [Resource.types.ELEC.id, 10],
+        [Resource.types.MONEY.id, 10]
+      ],
+      onBuilt: appState => {
+        let crimC = Math.round(appState.populationState.unitsMap.get('CRIMINAL').amount * 0.9)
+        let riotC = Math.round(appState.populationState.unitsMap.get('RIOTER').amount * 0.8)
+        let count = crimC + riotC
+        let soldiersC = Math.round(count * 0.7)
+        if (appState.populationState.soldiersCount < soldiersC) {
+          soldiersC = Math.round(appState.populationState.soldiersCount * 0.9)
+          crimC = Math.round(soldiersC / 2 * 0.9)
+          riotC = Math.round(soldiersC / 2 * 0.8)
+          count = crimC + riotC
+        }
+        appState.populationState.killSoldiers(soldiersC)
+        appState.populationState.unitsMap.get('CRIMINAL').amount -= crimC
+        appState.populationState.unitsMap.get('RIOTER').amount -= riotC
+        appState.populationState.unitsMap.get('PRISONER').amount += Math.round(count * 0.95)
+        appState.populationState.mortalityCoef = Math.max(appState.populationState.mortalityCoef + 0.01, 0)
+      },
+      description: 'Converts soldiers into policemans, that catch criminals and rioters and put them into prison'
     }
   }).map((val, key) => {
     val.id = key
@@ -82,6 +132,9 @@ export default class Building {
   @persist @observable buildingTicks = Building.trainingTicks
 
   @computed get name () {
+    if (this.type.id === 'REACTOR') {
+      return 'REACTor'
+    }
     return _.capitalize(this.type.id)
   }
 

@@ -23,7 +23,7 @@ export default class BuildingGrid extends Component {
   render () {
     return (
       <div {...rowMargin}>
-        <ElementDivider columns={4}>
+        <ElementDivider columns={3}>
           {this.props.buildings.map((building, i) =>
             <Building
               key={i}

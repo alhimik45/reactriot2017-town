@@ -8,7 +8,7 @@ import Resource from './Resource'
 export default class PopulationState {
   @persist('map', Unit) @observable unitsMap =
     observable.map(L(Unit.types)
-      .map(type => [type.id, new Unit(type, 0)]).toObject())
+      .map(type => [type.id, new Unit(type, 10000)]).toObject())
 
   @persist @observable mortalityCoef = 0.03
   @persist @observable mortalityFoodCoef = 1
@@ -29,7 +29,7 @@ export default class PopulationState {
     return {
       name: 'Mortality',
       imgSrc: '/static/mortality.svg',
-      amount: this.mortalityVal * 100 + '%'
+      amount: _.round(this.mortalityVal * 100, 3) + '%'
     }
   }
 
@@ -85,6 +85,11 @@ export default class PopulationState {
     return this.getProfession('soldier').toArray()
   }
 
+  @computed get soldiersCount () {
+    return this.getProfession('soldier')
+      .sum(m => m.amount)
+  }
+
   @computed get soldiersPower () {
     return {
       name: 'Power',
@@ -131,8 +136,8 @@ export default class PopulationState {
   applyMortality () {
     this.units.forEach(unit => {
       unit.amount = Math.max(0, unit.amount - Math.round(
-            (Math.random() < this.mortalityVal * 5) * Math.max(
-              unit.amount * (this.mortalityVal ** 2), 1)))
+          (Math.random() < this.mortalityVal * 5) * Math.max(
+            unit.amount * (this.mortalityVal ** 2), 1)))
     })
   }
 
@@ -150,5 +155,19 @@ export default class PopulationState {
   @action
   displeasureChange (val) {
     this.displeasureCoef = this.displeasureCoef + val
+  }
+
+  @action
+  killSoldiers (count) {
+    let most = Math.round(count * 0.9)
+    let rest = count - most
+    for (const soldier of this.soldiers) {
+      let killed = Math.min(soldier.amount, most)
+      soldier.amount = Math.max(soldier.amount - most, 0)
+      most -= killed
+      if (most === 0) {
+        most = rest
+      }
+    }
   }
 }
