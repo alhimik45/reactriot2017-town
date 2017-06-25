@@ -55,6 +55,29 @@ export default class AppState {
       this.populationState.mortalityFoodSet(1)
     }
     this.populationState.applyMortality()
+    this.doEvents()
+  }
+
+  doEvents () {
+    if (_.random(0, 30) === 0) {
+      const events = [
+        ['Some migrants have arrived', () => {
+          this.populationState.unitsMap.get('IDLE').amount += _.random(1, 15)
+        }],
+        ['Deluge destroyed some of your resources', () => {
+          const res = {
+            'FOOD': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('FOOD').amount / _.random(2, 10))),
+            'MONEY': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('MONEY').amount / _.random(2, 10))),
+            'WOOD': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('WOOD').amount / _.random(2, 10))),
+            'GEMS': Math.round(_.random(0, -this.resourcesState.resourcesMap.get('GEMS').amount / _.random(2, 10)))
+          }
+          this.resourcesState.applyDiff(res)
+        }]
+      ]
+      const evt = _.sample(events)
+      this.msg.show(evt[0])
+      evt[1]()
+    }
   }
 
   runTrainingTicks () {
