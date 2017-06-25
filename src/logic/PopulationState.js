@@ -225,7 +225,7 @@ export default class PopulationState {
 
   @action
   badGuysGenerate () {
-    const coef = this.criminalCoef + Math.max(0, this.displeasureVal) / 5
+    const coef = this.criminalCoef + Math.max(0, this.displeasureVal) / 1000
     const bad = this.displeasureVal >= 0.8 ? 'RIOTER' : 'CRIMINAL'
     this.nonSpecialUnits.forEach(unit => {
       const diff = unit.amount - this.applyCoef(unit.amount, coef)
