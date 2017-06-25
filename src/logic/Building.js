@@ -8,24 +8,27 @@ export default class Building {
   static types = L({
     HOUSE: {
       cost: [
-        [Resource.types.MONEY.id, 10]
+        [Resource.types.MONEY.id, 10],
+        [Resource.types.WOOD.id, 100]
       ],
       onBuilt: appState => appState.populationState.addIdle(10),
       description: 'Adds 10 idle people'
     },
     SKYSCRAPPER: {
       cost: [
-        [Resource.types.WOOD.id, 2500],
+        [Resource.types.WOOD.id, 4000],
         [Resource.types.MONEY.id, 1000],
-        [Resource.types.GEMS.id, 100]
+        [Resource.types.GEMS.id, 1000],
+        [Resource.types.ELEC.id, 50]
       ],
       onBuilt: appState => appState.populationState.addIdle(1000),
       description: 'Adds 1000 idle people'
     },
     BANK: {
       cost: [
-        [Resource.types.MONEY.id, 1],
-        [Resource.types.GEMS.id, 1]
+        [Resource.types.WOOD.id, 400],
+        [Resource.types.GEMS.id, 500],
+        [Resource.types.ELEC.id, 50]
       ],
       onBuilt: appState => {
         appState.populationState.criminalCoef += 0.005
@@ -37,9 +40,9 @@ export default class Building {
     },
     SHOP: {
       cost: [
-        [Resource.types.ELEC.id, 25],
-        [Resource.types.MONEY.id, 1],
-        [Resource.types.GEMS.id, 1]
+        [Resource.types.MONEY.id, 70],
+        [Resource.types.ELEC.id, 30],
+        [Resource.types.GEMS.id, 300]
       ],
       onBuilt: appState => {
         appState.populationState.criminalCoef += 0.01
@@ -49,22 +52,22 @@ export default class Building {
     },
     ELECTROSTATION: {
       cost: [
-        [Resource.types.WOOD.id, 100],
-        [Resource.types.MONEY.id, 1],
-        [Resource.types.GEMS.id, 1]
+        [Resource.types.WOOD.id, 300],
+        [Resource.types.MONEY.id, 70],
+        [Resource.types.GEMS.id, 300]
       ],
       onBuilt: appState => {
         appState.populationState.criminalCoef += 0.05
         appState.populationState.mortalityCoef += 0.002
-        appState.resourcesState.resourcesMap.get('ELEC').amount += 100
+        appState.resourcesState.resourcesMap.get('ELEC').amount += 150
         appState.populationState.displeasureChange(0.001)
       },
       description: 'Gives Electricity, sligntly increases Anger, Criminals and Mortality'
     },
     PUB: {
       cost: [
-        [Resource.types.ELEC.id, 10],
-        [Resource.types.MONEY.id, 10]
+        [Resource.types.ELEC.id, 25],
+        [Resource.types.MONEY.id, 100]
       ],
       onBuilt: appState => {
         appState.populationState.criminalCoef += 0.001
@@ -74,20 +77,20 @@ export default class Building {
     },
     REACTOR: {
       cost: [
-        [Resource.types.GEMS.id, 10],
-        [Resource.types.MONEY.id, 10]
+        [Resource.types.GEMS.id, 650],
+        [Resource.types.MONEY.id, 200]
       ],
       onBuilt: appState => {
-        appState.resourcesState.resourcesMap.get('ELEC').amount += 1000
+        appState.resourcesState.resourcesMap.get('ELEC').amount += 500
         appState.populationState.displeasureChange(-0.05)
       },
       description: 'Gives many Electricity and decreases chance of RIOT ;)'
     },
     HOSPITAL: {
       cost: [
-        [Resource.types.GEMS.id, 10],
+        [Resource.types.GEMS.id, 300],
         [Resource.types.ELEC.id, 150],
-        [Resource.types.MONEY.id, 10]
+        [Resource.types.MONEY.id, 70]
       ],
       onBuilt: appState => {
         appState.populationState.mortalityCoef = Math.max(appState.populationState.mortalityCoef - 0.005, 0)
@@ -96,9 +99,9 @@ export default class Building {
     },
     POLICE: {
       cost: [
-        [Resource.types.GEMS.id, 10],
-        [Resource.types.ELEC.id, 10],
-        [Resource.types.MONEY.id, 10]
+        [Resource.types.GEMS.id, 300],
+        [Resource.types.ELEC.id, 50],
+        [Resource.types.MONEY.id, 70]
       ],
       onBuilt: appState => {
         let crimC = Math.round(appState.populationState.unitsMap.get('CRIMINAL').amount * 0.9)

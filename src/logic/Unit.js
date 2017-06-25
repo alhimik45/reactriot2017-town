@@ -11,45 +11,60 @@ export default class Unit {
     MINER: {
       profession: 'worker',
       cost: [
-        [Resource.types.WOOD.id, 10]
+        [Resource.types.WOOD.id, 10],
+        [Resource.types.MONEY.id, 3]
       ],
       resourceEffect: [[Resource.types.GEMS.id, 5]]
     },
     LOGMAN: {
       profession: 'worker',
-      cost: [[Resource.types.MONEY.id, 5]],
+      cost: [[Resource.types.MONEY.id, 4]],
       resourceEffect: [[Resource.types.WOOD.id, 5]]
     },
     FARMER: {
       profession: 'worker',
-      cost: [[Resource.types.WOOD.id, 10]],
+      cost: [[Resource.types.WOOD.id, 7]],
       resourceEffect: [[Resource.types.FOOD.id, 5]]
     },
     HUNTER: {
       profession: 'worker',
-      cost: [[Resource.types.WOOD.id, 10]],
+      cost: [
+        [Resource.types.WOOD.id, 10],
+        [Resource.types.MONEY.id, 10]
+      ],
       resourceEffect: [[Resource.types.FOOD.id, 10]]
     },
 
     RECRUIT: {
       profession: 'soldier',
       power: 1,
-      cost: [[Resource.types.FOOD.id, 10]]
+      cost: [
+        [Resource.types.FOOD.id, 5]
+      ]
     },
     SERGEANT: {
       profession: 'soldier',
       power: 3,
-      cost: [[Resource.types.FOOD.id, 10]]
+      cost: [
+        [Resource.types.FOOD.id, 10],
+        [Resource.types.MONEY.id, 10]
+      ]
     },
     OFFICER: {
       profession: 'soldier',
       power: 5,
-      cost: [[Resource.types.FOOD.id, 10]]
+      cost: [
+        [Resource.types.FOOD.id, 15],
+        [Resource.types.MONEY.id, 15]
+      ]
     },
     GENERAL: {
       profession: 'soldier',
       power: 0,
-      cost: [[Resource.types.FOOD.id, 10]],
+      cost: [
+        [Resource.types.FOOD.id, 20],
+        [Resource.types.MONEY.id, 20]
+      ],
       description: 'General significantly increases power of army, but too many generals can lead to unrest and RIOT'
     },
 
