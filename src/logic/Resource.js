@@ -15,7 +15,7 @@ export default class Resource {
     return [key, val]
   }).toObject()
 
-  @persist type
+  @persist('object') @observable type
   @persist @observable amount
   @persist @observable max
 
