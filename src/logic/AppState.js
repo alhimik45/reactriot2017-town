@@ -4,6 +4,7 @@ import ResourceState from './ResourceState'
 import PopulationState from './PopulationState'
 import BuildingState from './BuildingState'
 import L from 'lazy.js'
+import _ from 'lodash'
 import Resource from './Resource'
 
 export default class AppState {
@@ -132,5 +133,24 @@ export default class AppState {
     setTimeout(() => {
       this.populationState.displeasureChange(-old + neww)
     }, 1)
+  }
+
+  @action
+  attack (power) {
+    if (power / 500 > Math.random()) {
+      const res = {
+        'FOOD': Math.round(_.random(0, power / 10)),
+        'MONEY': Math.round(_.random(0, power / 10)),
+        'WOOD': Math.round(_.random(0, power / 10)),
+        'GEMS': Math.round(_.random(0, power / 10))
+      }
+      const resStr = L(res).map((val, key) => `${val} ${_.capitalize(key)}`).toArray().join(', ')
+      this.resourcesState.applyDiff(res)
+      this.msg.show('You won! Got ' + resStr)
+      this.populationState.killSoldiers(Math.round(power / 30) + _.random(0, 3))
+    } else {
+      this.msg.show('You lose!')
+      this.populationState.killSoldiers(Math.round(power / 4))
+    }
   }
 }

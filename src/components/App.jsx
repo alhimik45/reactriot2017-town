@@ -14,6 +14,7 @@ import DevTools from 'mobx-react-devtools'
 import BuildingGrid from './BuildingGrid'
 import AlertContainer from 'react-alert'
 import ModalHelp from './ModalHelp'
+import ModalWar from './ModalWar'
 
 const BigP = g.p({
   fontSize: '24px'
@@ -78,6 +79,7 @@ export default class App extends Component {
               <g.P fontSize='24px'>
                 War
               </g.P>
+              <ModalWar appState={appState} />
             </b.Col>
           </b.Row>
         </b.Col>
