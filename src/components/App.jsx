@@ -11,7 +11,6 @@ import Taxes from './Taxes'
 import ElementDivider from './ElementDivider'
 import StatsRow from './StatsRow'
 import UnitGrid from './UnitGrid'
-import DevTools from 'mobx-react-devtools'
 import BuildingGrid from './BuildingGrid'
 import AlertContainer from 'react-alert'
 import ModalHelp from './ModalHelp'
@@ -206,7 +205,6 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
         </b.Col>
-        <DevTools />
         <AlertContainer ref={a => { appState.msg = a }} {...this.alertOptions} />
       </b.Row>
     )
