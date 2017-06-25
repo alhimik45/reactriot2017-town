@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
-import _ from 'lodash/fp'
+import _ from 'lodash'
 import Unit from './Unit'
 import Resource from './Resource'
 
@@ -12,7 +12,8 @@ export default class PopulationState {
 
   @persist @observable mortalityCoef = 0.03
   @persist @observable mortalityFoodCoef = 1
-  @persist @observable displeasure = { name: 'Anger', imgSrc: '/static/anger.svg', amount: 0 }
+  @persist @observable displeasureCoef = 0.01
+  @persist @observable criminalCoef = 0.01
   @persist @observable taxPercent = 20
 
   getProfession (profession) {
@@ -29,6 +30,14 @@ export default class PopulationState {
       name: 'Mortality',
       imgSrc: '/static/mortality.svg',
       amount: this.mortalityVal * 100 + '%'
+    }
+  }
+
+  @computed get displeasure () {
+    return {
+      name: this.displeasureCoef >= 0 ? 'Anger' : 'Joy',
+      imgSrc: this.displeasureCoef >= 0 ? '/static/anger.svg' : '/static/happiness.svg',
+      amount: _.round(Math.abs(this.displeasureCoef * 100), 3)
     }
   }
 
@@ -136,5 +145,10 @@ export default class PopulationState {
   @action
   stepTraining () {
     this.units.forEach(unit => unit.stepTraining())
+  }
+
+  @action
+  displeasureChange (val) {
+    this.displeasureCoef = this.displeasureCoef + val
   }
 }

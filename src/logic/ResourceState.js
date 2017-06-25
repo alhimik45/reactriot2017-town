@@ -6,7 +6,7 @@ import Resource from './Resource'
 export default class ResourceState {
   @persist('map', Resource) @observable resourcesMap =
     observable.map(L(Resource.types)
-      .map(type => [type.id, new Resource(type, 10)]).toObject())
+      .map(type => [type.id, new Resource(type, 100)]).toObject())
 
   moreThan (resources, count) {
     return L(resources).every((val, key) => this.resourcesMap.get(key).amount >= val * count)

@@ -8,7 +8,7 @@ export default class Building {
   static types = L({
     HOUSE: {
       cost: [
-        [Resource.types.WOOD.id, 25]
+        [Resource.types.MONEY.id, 10]
       ],
       onBuilt: appState => appState.populationState.addIdle(10),
       description: 'Adds 10 idle people'
@@ -21,6 +21,53 @@ export default class Building {
       ],
       onBuilt: appState => appState.populationState.addIdle(1000),
       description: 'Adds 1000 idle people'
+    },
+    BANK: {
+      cost: [
+        [Resource.types.MONEY.id, 1],
+        [Resource.types.GEMS.id, 1]
+      ],
+      onBuilt: appState => {
+        appState.populationState.criminalCoef += 0.01
+        appState.populationState.displeasureChange(0.01)
+      },
+      description: 'Gives additional money, but increases Anger and Criminals'
+    },
+    SHOP: {
+      cost: [
+        [Resource.types.ELEC.id, 25],
+        [Resource.types.MONEY.id, 1],
+        [Resource.types.GEMS.id, 1]
+      ],
+      onBuilt: appState => {
+        appState.populationState.criminalCoef += 0.01
+        appState.populationState.displeasureChange(-0.005)
+      },
+      description: 'Decreases Anger'
+    },
+    ELECTROSTATION: {
+      cost: [
+        [Resource.types.WOOD.id, 100],
+        [Resource.types.MONEY.id, 1],
+        [Resource.types.GEMS.id, 1]
+      ],
+      onBuilt: appState => {
+        appState.populationState.criminalCoef += 0.05
+        appState.resourcesState.resourcesMap.get('ELEC').amount += 100
+        appState.populationState.displeasureChange(0.001)
+      },
+      description: 'Gives Electricity, sligntly increases Anger and Criminals'
+    },
+    PUB: {
+      cost: [
+        [Resource.types.ELEC.id, 10],
+        [Resource.types.MONEY.id, 10]
+      ],
+      onBuilt: appState => {
+        appState.populationState.criminalCoef += 0.5
+        appState.populationState.displeasureChange(-0.05)
+      },
+      description: 'Seriously decreases Anger, but increases Criminals'
     }
   }).map((val, key) => {
     val.id = key
