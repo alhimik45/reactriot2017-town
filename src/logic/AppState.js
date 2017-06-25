@@ -4,6 +4,7 @@ import ResourceState from './ResourceState'
 import PopulationState from './PopulationState'
 import BuildingState from './BuildingState'
 import L from 'lazy.js'
+import Resource from './Resource'
 
 export default class AppState {
   @persist('object', ResourceState)
@@ -14,7 +15,7 @@ export default class AppState {
   @observable
   populationState = new PopulationState()
 
-  @persist('object', PopulationState)
+  @persist('object', BuildingState)
   @observable
   buildingState = new BuildingState()
 
@@ -25,7 +26,7 @@ export default class AppState {
     this.hydrate = create({ storage: window.localStorage })
     this.sync()
     this.populationState.units[3].amount += 100
-    this.populationState.units[0].amount += 10
+    this.populationState.units[0].amount += 400
     // this.doTick()
     this.runResourceTicks()
     this.runTrainingTicks()
@@ -45,6 +46,12 @@ export default class AppState {
   @action
   doResourceTick () {
     this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
+    if (this.resourcesState.resourcesMap.get(Resource.types.FOOD.id).amount === 0) {
+      this.populationState.mortalityFoodCoef = 10
+    } else {
+      this.populationState.mortalityFoodCoef = 1
+    }
+    this.populationState.applyMortality()
   }
 
   runTrainingTicks () {

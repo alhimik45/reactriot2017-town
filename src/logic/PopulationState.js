@@ -1,4 +1,4 @@
-import { observable, computed, action } from 'mobx'
+import { action, computed, observable } from 'mobx'
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
 import _ from 'lodash/fp'
@@ -10,8 +10,9 @@ export default class PopulationState {
     observable.map(L(Unit.types)
       .map(type => [type.id, new Unit(type, 0)]).toObject())
 
-  @persist @observable mortality = { name: 'Mortality', imgSrc: '/static/mortality.svg', amount: 0 };
-  @persist @observable displeasure = { name: 'Anger', imgSrc: '/static/anger.svg', amount: 0 };
+  @persist @observable mortalityCoef = 0.03
+  @persist @observable mortalityFoodCoef = 1
+  @persist @observable displeasure = { name: 'Anger', imgSrc: '/static/anger.svg', amount: 0 }
   @persist @observable taxPercent = 20
 
   getProfession (profession) {
@@ -19,13 +20,17 @@ export default class PopulationState {
       .filter(m => m.type.profession === profession)
   }
 
-  // @computed get growth () {
-  //   return {
-  //     name: 'Growth',
-  //     imgSrc: '/static/growth.svg',
-  //     amount: Math.round(this.totalPopulationAmount / 100 * 1.5 * (this.growthCoef ** 0.5))
-  //   }
-  // }
+  @computed get mortalityVal () {
+    return this.mortalityCoef * this.mortalityFoodCoef
+  }
+
+  @computed get mortality () {
+    return {
+      name: 'Mortality',
+      imgSrc: '/static/mortality.svg',
+      amount: this.mortalityVal * 100 + '%'
+    }
+  }
 
   @computed get units () {
     return this.unitsMap.values()
@@ -99,7 +104,7 @@ export default class PopulationState {
     } else {
       res[foodId] = -this.totalPopulationAmount
     }
-    const soldiersMoneyChange = Math.round(this.soldiersPower.amount / 10)
+    const soldiersMoneyChange = Math.round(this.soldiersPower.amount / 4)
     if (res[moneyId]) {
       res[moneyId] -= this.tax - soldiersMoneyChange
     } else {
@@ -111,6 +116,15 @@ export default class PopulationState {
   @action
   addIdle (count) {
     this.unitsMap.get(Unit.types.IDLE.id).amount += count
+  }
+
+  @action
+  applyMortality () {
+    this.units.forEach(unit => {
+      unit.amount = Math.max(0, unit.amount - Math.round(
+            (Math.random() < this.mortalityVal * 5) * Math.max(
+              unit.amount * (this.mortalityVal ** 2), 1)))
+    })
   }
 
   @action

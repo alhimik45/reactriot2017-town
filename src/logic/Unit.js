@@ -11,8 +11,7 @@ export default class Unit {
     MINER: {
       profession: 'worker',
       cost: [
-        [Resource.types.FOOD.id, 10],
-        [Resource.types.WOOD.id, 6]
+        [Resource.types.WOOD.id, 10]
       ],
       resourceEffect: [[Resource.types.GEMS.id, 5]]
     },
@@ -23,12 +22,12 @@ export default class Unit {
     },
     FARMER: {
       profession: 'worker',
-      cost: [[Resource.types.FOOD.id, 10]],
+      cost: [[Resource.types.WOOD.id, 10]],
       resourceEffect: [[Resource.types.FOOD.id, 5]]
     },
     HUNTER: {
       profession: 'worker',
-      cost: [[Resource.types.FOOD.id, 10]],
+      cost: [[Resource.types.WOOD.id, 10]],
       resourceEffect: [[Resource.types.FOOD.id, 10]]
     },
 
