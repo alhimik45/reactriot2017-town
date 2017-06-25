@@ -10,11 +10,11 @@ export default class PopulationState {
     observable.map(L(Unit.types)
       .map(type => [type.id, new Unit(type, 0)]).toObject())
 
-  @persist @observable mortalityCoef = 0.03
+  @persist @observable mortalityCoef = 0.009
   @persist @observable mortalityFoodCoef = 1
   @persist @observable displeasureCoef = 0.01
-  @persist @observable criminalCoef = 0.01
-  @persist @observable taxPercent = 20
+  @persist @observable criminalCoef = 0.005
+  @persist @observable taxPercent = 10
 
   constructor (appState) {
     this.appState = appState
@@ -157,7 +157,7 @@ export default class PopulationState {
 
   applyCoef (val, coef) {
     return Math.max(0, val - Math.round(
-        (Math.random() < coef * 5) * Math.max(
+        (Math.random() < coef * 1.5) * Math.max(
           val * (coef ** 2), 1)))
   }
 
@@ -210,8 +210,8 @@ export default class PopulationState {
 
   @action
   badGuysGenerate () {
-    const coef = this.criminalCoef + Math.max(0, this.displeasureVal) / 2 + this.mortalityVal / 2
-    const bad = this.displeasureVal > 0.8 ? 'RIOTER' : 'CRIMINAL'
+    const coef = this.criminalCoef + Math.max(0, this.displeasureVal) / 5
+    const bad = this.displeasureVal >= 0.8 ? 'RIOTER' : 'CRIMINAL'
     this.nonSpecialUnits.forEach(unit => {
       const diff = unit.amount - this.applyCoef(unit.amount, coef)
       unit.amount -= diff

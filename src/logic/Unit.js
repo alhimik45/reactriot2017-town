@@ -17,7 +17,7 @@ export default class Unit {
     },
     LOGMAN: {
       profession: 'worker',
-      cost: [[Resource.types.FOOD.id, 10]],
+      cost: [[Resource.types.MONEY.id, 5]],
       resourceEffect: [[Resource.types.WOOD.id, 5]]
     },
     FARMER: {

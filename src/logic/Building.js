@@ -28,10 +28,10 @@ export default class Building {
         [Resource.types.GEMS.id, 1]
       ],
       onBuilt: appState => {
-        appState.populationState.criminalCoef += 0.1
+        appState.populationState.criminalCoef += 0.005
         appState.populationState.displeasureChange(0.1)
         appState.resourcesState.resourcesMap.get('MONEY').amount +=
-          Math.round(appState.resourcesState.resourcesMap.get('MONEY').amount * 0.4)
+          Math.round(appState.resourcesState.resourcesMap.get('MONEY').amount * 0.5)
       },
       description: 'Instantly increases money in 40%, but increases Anger and Criminals'
     },
@@ -67,8 +67,8 @@ export default class Building {
         [Resource.types.MONEY.id, 10]
       ],
       onBuilt: appState => {
-        appState.populationState.criminalCoef += 0.5
-        appState.populationState.displeasureChange(-0.05)
+        appState.populationState.criminalCoef += 0.001
+        appState.populationState.displeasureChange(-0.02)
       },
       description: 'Seriously decreases Anger, but increases Criminals'
     },
