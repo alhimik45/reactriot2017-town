@@ -8,7 +8,7 @@ useStrict(true)
 
 const appState = new AppState()
 
-document.body.style.overflow = 'hidden'
+// document.body.style.overflow = 'hidden'
 
 render(
   <App appState={appState} />,
