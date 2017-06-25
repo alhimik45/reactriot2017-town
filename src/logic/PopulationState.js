@@ -57,7 +57,7 @@ export default class PopulationState {
   }
 
   @computed get tax () {
-    return Math.max(Math.round(this.totalPopulationAmount / 1000 * this.taxPercent), 1)
+    return Math.max(Math.round(this.totalPopulationAmount / 50 * this.taxPercent), 1) + 3
   }
 
   @computed get population () {
@@ -141,7 +141,7 @@ export default class PopulationState {
     } else {
       res[foodId] = -this.totalPopulationAmount
     }
-    const soldiersMoneyChange = Math.round(this.soldiersPower.amount / 4)
+    const soldiersMoneyChange = Math.round(this.soldiersPower.amount / 10)
     if (res[moneyId]) {
       res[moneyId] -= this.tax - soldiersMoneyChange
     } else {
@@ -232,5 +232,14 @@ export default class PopulationState {
       unit.amount -= diff
       this.unitsMap.get(bad).amount += diff
     })
+    this.criminalBack(coef)
+  }
+
+  criminalBack (coef) {
+    const crim = this.unitsMap.get('CRIMINAL')
+    const idle = this.unitsMap.get('IDLE')
+    const diff = crim.amount - this.applyCoef(crim.amount, coef)
+    crim.amount -= diff
+    idle.amount += diff
   }
 }

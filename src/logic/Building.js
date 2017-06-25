@@ -57,12 +57,11 @@ export default class Building {
         [Resource.types.GEMS.id, 300]
       ],
       onBuilt: appState => {
-        appState.populationState.criminalCoef += 0.05
         appState.populationState.mortalityCoef += 0.002
         appState.resourcesState.resourcesMap.get('ELEC').amount += 150
         appState.populationState.displeasureChange(0.001)
       },
-      description: 'Gives Electricity, sligntly increases Anger, Criminals and Mortality'
+      description: 'Gives Electricity, sligntly increases Anger and Mortality'
     },
     PUB: {
       cost: [
@@ -118,7 +117,7 @@ export default class Building {
         appState.populationState.unitsMap.get('CRIMINAL').amount -= crimC
         appState.populationState.unitsMap.get('RIOTER').amount -= riotC
         appState.populationState.unitsMap.get('PRISONER').amount += Math.round(count * 0.95)
-        appState.populationState.mortalityCoef = Math.max(appState.populationState.mortalityCoef + 0.01, 0)
+        appState.populationState.mortalityCoef = Math.max(appState.populationState.mortalityCoef + 0.001, 0)
       },
       description: 'Converts soldiers into policemans, that catch criminals and rioters and put them into prison'
     }
