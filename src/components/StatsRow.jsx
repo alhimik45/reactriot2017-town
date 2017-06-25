@@ -20,7 +20,8 @@ export default class StatsRow extends Component {
       })}>
         <b.Col
           {...paddingSides5}
-          xs={8} className='text-left'>
+          xs={8}
+          className='text-left'>
           {this.props.imgSrc &&
           <img
             width={15}
@@ -28,7 +29,10 @@ export default class StatsRow extends Component {
           &nbsp;
           {this.props.name}
         </b.Col>
-        <b.Col xs={4} className='text-right'>
+        <b.Col
+          {...paddingSides5}
+          xs={4}
+          className='text-right'>
           {this.props.amount}
         </b.Col>
       </b.Row>
