@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { observer, PropTypes } from 'mobx-react'
 import { action } from 'mobx'
-import { margin5, noTextSelect, borderRight, borderBot, borderLeft, borderTop, fullHeight } from './../styles'
+import { borderBot, borderLeft, borderRight, borderTop, fullHeight, margin5, noTextSelect } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
 import { css } from 'glamor'
@@ -58,6 +58,7 @@ export default class App extends Component {
                 Training
               </BigP>
               <Multiplier
+                tip='How many unit train per click'
                 elements={[1, 10, 100]}
                 current={appState.trainingMultiplier}
                 nameFormatter={n => 'x' + n}
@@ -189,6 +190,7 @@ export default class App extends Component {
                 Speed
               </BigP>
               <Multiplier
+                tip='How many ticks per second'
                 elements={[0, 1, 2, 3]}
                 current={appState.tickPerSecond}
                 nameFormatter={n => n + 'x'}
