@@ -16,7 +16,7 @@ export default class Unit {
       ],
       resourceEffect: [[Resource.types.GEMS.id, 5]]
     },
-    LOGMAN: {
+    Lumberjack: {
       profession: 'worker',
       cost: [[Resource.types.MONEY.id, 4]],
       resourceEffect: [[Resource.types.WOOD.id, 5]]
