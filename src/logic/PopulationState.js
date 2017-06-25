@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, createTransformer } from 'mobx'
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
 import _ from 'lodash'
@@ -122,11 +122,14 @@ export default class PopulationState {
     }
   }
 
-  @computed get resourcesPerSecond () {
+  resourcesPerSecond = createTransformer((alwaysConst) => {
     let res = _(this.units.slice())
       .map('resourcesDiff')
       .flatten()
-      .reduce((res, [key, val]) => {
+      .reduce((res, [key, val, realVal]) => {
+        if (alwaysConst && !_.isUndefined(realVal)) {
+          val = realVal
+        }
         if (res[key]) {
           res[key] += val
         } else {
@@ -148,7 +151,7 @@ export default class PopulationState {
       res[moneyId] = this.tax - soldiersMoneyChange
     }
     return res
-  }
+  })
 
   @action
   addIdle (count) {
