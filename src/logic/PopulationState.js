@@ -89,6 +89,11 @@ export default class PopulationState {
   }
 
   @action
+  addIdle (count) {
+    this.unitsMap.get(Unit.types.IDLE.id).amount += count
+  }
+
+  @action
   trainUnit (unit, count) {
     this.unitsMap.get(Unit.types.IDLE.id).amount -= count
     unit.addToQueue(count)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { observer, PropTypes } from 'mobx-react'
+import PropTypes from 'prop-types'
+import { observer, PropTypes as MPropTypes } from 'mobx-react'
 import ElementDivider from './ElementDivider'
 import Building from './Building'
 
@@ -14,7 +15,9 @@ const rowMargin = css({
 export default class BuildingGrid extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
-    buildings: PropTypes.arrayOrObservableArray.isRequired
+    buildings: MPropTypes.arrayOrObservableArray.isRequired,
+    canUpgrade: PropTypes.func.isRequired,
+    onUpgrade: PropTypes.func.isRequired
   }
 
   render () {
@@ -24,9 +27,9 @@ export default class BuildingGrid extends Component {
           {this.props.buildings.map((building, i) =>
             <Building
               key={i}
-              name={building.name}
-              level={building.level}
-              imgSrc={building.imgSrc} />
+              building={building}
+              upgradeAvailable={this.props.canUpgrade(building)}
+              onUpgrade={() => this.props.onUpgrade(building)} />
           )}
         </ElementDivider>
       </div>

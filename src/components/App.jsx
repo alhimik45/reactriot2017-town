@@ -91,7 +91,11 @@ export default class App extends Component {
               <BigP>
                 Buildings
               </BigP>
-              <BuildingGrid buildings={appState.buildingState.buildings} />
+              <BuildingGrid
+                canUpgrade={b => appState.canUpgrade(b)}
+                onUpgrade={b => appState.buyBuilding(b)}
+                buildings={appState.buildingState.buildings}
+              />
             </b.Col>
           </b.Row>
         </b.Col>

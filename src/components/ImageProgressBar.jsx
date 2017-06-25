@@ -15,20 +15,18 @@ export default class ImageProgressBar extends Component {
   render () {
     let imgBg = ''
     if (this.props.imgSrc) {
-      imgBg = `, url(${this.props.imgSrc}) no-repeat`
+      imgBg = `, url(${this.props.imgSrc}) center no-repeat`
     }
     const progress = this.props.progress || 0
-    const backgroundProps = css({
-      backgroundSize: 'contain',
-      backgroundPosition: 'center'
-    })
 
     return (
       <div
         {...this.passthrough()}
-        {...css(boldBorder, backgroundProps)}
+        {...boldBorder}
         style={{
-          background: `linear-gradient(to right, rgba(0,0,255,0.4) ${progress}%, rgba(255,255,255,0.0) ${progress}%) ${imgBg}`
+          background: `linear-gradient(to right, rgba(0,0,255,0.4) ${progress}%, rgba(255,255,255,0.0) ${progress}%) ${imgBg}`,
+          backgroundSize: 'contain',
+          backgroundPosition: 'center'
         }}>
         {this.props.children}
       </div>

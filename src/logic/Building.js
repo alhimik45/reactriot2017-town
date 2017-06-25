@@ -1,84 +1,35 @@
 import { persist } from 'mobx-persist'
 import L from 'lazy.js'
 import _ from 'lodash/fp'
-import { observable, computed } from 'mobx'
+import { observable, computed, action } from 'mobx'
 import Resource from './Resource'
 
 export default class Building {
   static types = L({
-    Bank: {
+    HOUSE: {
       cost: [
         [Resource.types.WOOD.id, 25]
       ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank1: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank2: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank3: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank4: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank5: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank6: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank7: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank8: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
-    },
-    Bank9: {
-      cost: [
-        [Resource.types.WOOD.id, 25]
-      ],
-      resourceEffect: [[Resource.types.MONEY.id, 5]]
+      onBuilt: appState => appState.populationState.addIdle(10),
+      description: "Adds 10 idle people"
     }
   }).map((val, key) => {
     val.id = key
     return [key, val]
   }).toObject()
 
+  static trainingTicks = 10
+
   @persist @observable type
   @persist @observable amount
+  @persist @observable queueLength = 0
+  @persist @observable buildingTicks = Building.trainingTicks
 
   @computed get name () {
     return _.capitalize(this.type.id)
   }
 
-  @computed get cost () {
+  @computed get costStr () {
     return this.type.cost
       .map(([resource, amount]) => `${amount} ${_.capitalize(resource)}`)
       .join(', ')
@@ -88,8 +39,44 @@ export default class Building {
     return `/static/${this.type.id.toLowerCase()}.svg`
   }
 
+  @computed get cost () {
+    if (!this.type.cost) {
+      return {}
+    }
+    return L(this.type.cost.slice()).toObject()
+  }
+
+  get description () {
+    return this.type.description
+  }
+
   constructor (type, amount) {
     this.type = type
     this.amount = amount
+  }
+
+  @computed get upgradeProgress(){
+    return 100 - Math.round(this.buildingTicks / Building.trainingTicks * 100)
+  }
+
+  @action
+  build () {
+    this.queueLength += 1
+    if (this.queueLength === 1) {
+      this.buildingTicks = Building.trainingTicks
+    }
+  }
+
+  @action
+  stepBuilding (appState) {
+    if (this.queueLength > 0) {
+      this.buildingTicks -= 1
+      if (this.buildingTicks === 0) {
+        this.amount += 1
+        this.type.onBuilt(appState)
+        this.queueLength -= 1
+        this.buildingTicks = Building.trainingTicks
+      }
+    }
   }
 }

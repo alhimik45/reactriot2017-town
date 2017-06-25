@@ -60,6 +60,7 @@ export default class AppState {
   @action
   doTrainingTick () {
     this.populationState.stepTraining()
+    this.buildingState.stepBuilding(this)
   }
 
   @computed get tax () {
@@ -89,10 +90,19 @@ export default class AppState {
   this.resourcesState.moreThan(unit.cost, this.trainingMultiplier) &&
   this.populationState.units[0].amount >= this.trainingMultiplier)
 
+  canUpgrade = createTransformer(building =>
+    this.resourcesState.moreThan(building.cost, 1))
+
   @action
   buyUnit (unit) {
     this.resourcesState.applyReverseDiff(unit.cost, this.trainingMultiplier)
     this.populationState.trainUnit(unit, this.trainingMultiplier)
+  }
+
+  @action
+  buyBuilding (building) {
+    this.resourcesState.applyReverseDiff(building.cost, 1)
+    this.buildingState.build(building)
   }
 
   @action

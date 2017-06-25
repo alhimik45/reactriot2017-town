@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { observer, PropTypes as MPropTypes } from 'mobx-react'
 import ElementDivider from './ElementDivider'
 import Unit from './Unit'
 
@@ -17,7 +17,7 @@ export default class UnitGrid extends Component {
   static propTypes = {
     canBuy: PropTypes.func.isRequired,
     onTrain: PropTypes.func.isRequired,
-    units: PropTypes.array.isRequired
+    units: MPropTypes.arrayOrObservableArray.isRequired
   }
 
   render () {
