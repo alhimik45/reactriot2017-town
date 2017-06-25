@@ -184,7 +184,7 @@ export default class Building {
       this.buildingTicks -= 1
       if (this.buildingTicks === 0) {
         this.amount += 1
-        this.type.onBuilt(appState)
+        Building.types[this.type.id].onBuilt(appState)
         this.queueLength -= 1
         this.buildingTicks = Building.trainingTicks
       }
