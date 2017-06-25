@@ -9,18 +9,21 @@ export default class PopulationState {
     observable.map(L(Unit.types)
       .map(type => [type.id, new Unit(type, 0)]).toObject())
 
-  @persist @observable growth = { name: 'Growth', imgSrc: '/static/growth.svg', amount: 0 };
   @persist @observable mortality = { name: 'Mortality', imgSrc: '/static/mortality.svg', amount: 0 };
   @persist @observable displeasure = { name: 'Anger', imgSrc: '/static/anger.svg', amount: 0 };
-
-  doTick () {
-    this.resourcesState.applyDiff(this.populationState.resourcesPerSecond)
-  }
 
   getProfession (profession) {
     return L(this.units.slice())
       .filter(m => m.type.profession === profession)
   }
+
+  // @computed get growth () {
+  //   return {
+  //     name: 'Growth',
+  //     imgSrc: '/static/growth.svg',
+  //     amount: Math.round(this.totalPopulationAmount / 100 * 1.5 * (this.growthCoef ** 0.5))
+  //   }
+  // }
 
   @computed get units () {
     return this.unitsMap.values()

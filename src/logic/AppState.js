@@ -3,6 +3,7 @@ import { create, persist } from 'mobx-persist'
 import ResourceState from './ResourceState'
 import PopulationState from './PopulationState'
 import BuildingState from './BuildingState'
+import L from 'lazy.js'
 
 export default class AppState {
   @persist('object', ResourceState)
@@ -62,6 +63,17 @@ export default class AppState {
 
   @computed get tickTime () {
     return 1000 / this.tickPerSecond
+  }
+
+  @computed get resourcesSpeed () {
+    return L(this.populationState.resourcesPerSecond)
+      .map((val, key) => {
+        return {
+          name: this.resourcesState.resourcesMap.get(key).name,
+          imgSrc: this.resourcesState.resourcesMap.get(key).imgSrc,
+          amount: val + ' u/sec'
+        }
+      })
   }
 
   canBuy = createTransformer(unit =>

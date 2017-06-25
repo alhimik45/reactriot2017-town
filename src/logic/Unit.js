@@ -83,10 +83,12 @@ export default class Unit {
     return [key, val]
   }).toObject()
 
+  static trainingTicks = 10
+
   @persist @observable type
   @persist @observable amount
   @persist @observable queueLength = 0
-  @persist @observable currentQueueUnitTicks = 100
+  @persist @observable currentQueueUnitTicks = Unit.trainingTicks
 
   constructor (type, amount) {
     this.type = type
@@ -144,13 +146,13 @@ export default class Unit {
   }
 
   @computed get queueProgress () {
-    return 100 - this.currentQueueUnitTicks
+    return 100 - Math.round(this.currentQueueUnitTicks / Unit.trainingTicks * 100)
   }
 
   addToQueue (count) {
     this.queueLength += count
     if (this.queueLength === count) {
-      this.currentQueueUnitTicks = 100
+      this.currentQueueUnitTicks = Unit.trainingTicks
     }
   }
 
@@ -161,7 +163,7 @@ export default class Unit {
       if (this.currentQueueUnitTicks === 0) {
         this.amount += 1
         this.queueLength -= 1
-        this.currentQueueUnitTicks = 100
+        this.currentQueueUnitTicks = Unit.trainingTicks
       }
     }
   }

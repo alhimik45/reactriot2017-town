@@ -74,20 +74,14 @@ export default class App extends Component {
         <b.Col xs={6}>
           <b.Row>
             <BigP>
-              STATISTICS
+              Resource production rate
             </BigP>
             <b.Col xs={12}>
-              <b.Col xs={6}>
-                <ElementDivider>
-                  <StatsRow stats={appState.populationState.growth} />
-                  <StatsRow stats={appState.populationState.mortality} />
-                  <StatsRow stats={appState.populationState.displeasure} />
-                  <StatsRow stats={appState.populationState.populationStat} />
-                </ElementDivider>
-              </b.Col>
-              <b.Col xs={6}>
-                resources speeds here
-              </b.Col>
+              <ElementDivider>
+                {L(appState.resourcesSpeed).map(stats =>
+                  <StatsRow stats={stats} />
+                ).toArray()}
+              </ElementDivider>
             </b.Col>
           </b.Row>
           <b.Row>
@@ -145,10 +139,18 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
           <b.Row>
+            <BigP>
+              Info
+            </BigP>
             <b.Col xs={12}>
-              <Taxes value={appState.tax} onChange={(n) => appState.setTax(n)} />
+              <ElementDivider>
+                <StatsRow stats={appState.populationState.mortality} />
+                <StatsRow stats={appState.populationState.displeasure} />
+                <StatsRow stats={appState.populationState.populationStat} />
+              </ElementDivider>
             </b.Col>
           </b.Row>
+          <b.Row />
           <b.Row>
             <b.Col xs={12}>
               <BigP>
@@ -159,6 +161,11 @@ export default class App extends Component {
                 current={appState.tickPerSecond}
                 nameFormatter={n => n + 'x'}
                 onChange={n => appState.setSpeed(n)} />
+            </b.Col>
+          </b.Row>
+          <b.Row>
+            <b.Col xs={12}>
+              <Taxes value={appState.tax} onChange={(n) => appState.setTax(n)} />
             </b.Col>
           </b.Row>
         </b.Col>
