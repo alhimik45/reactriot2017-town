@@ -47,6 +47,7 @@ export default class ModalHelp extends Component {
             <h4>Controls</h4>
             <p>You can control the speed of game by buttons (left panel under "Info). It has a 0 value by default. (x1 to start the game)</p>
             <p>You can queue up several units at once. (1, 10 or 100). It controls by buttons on "Trainings" block. (left top side) </p>
+            <p>Buildings and units creates by just click. (queue for the creation, like in strategies :) )</p>
           </b.Modal.Body>
           <b.Modal.Footer>
             <b.Button onClick={this.close}>Close</b.Button>
