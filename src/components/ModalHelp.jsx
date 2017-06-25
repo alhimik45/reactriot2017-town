@@ -60,7 +60,7 @@ export default class ModalHelp extends Component {
             <p>Sometimes a strange things will happen with your city. Results of them you can recieved by notification
               (previous paragraph about them:) )</p>
             <h4>Controls</h4>
-            <p>You can control the speed of game by buttons (left panel under "Info). It has a 0 value by default. (x1
+            <p>You can control the speed of game by buttons (left panel under "War"). It has a 0 value by default. (x1
               to start the game)</p>
             <p>You can queue up several units at once. (1, 10 or 100). It controls by buttons on "Trainings" block.
               (left top side) </p>

@@ -90,7 +90,7 @@ export default class App extends Component {
                 Speed
               </BigP>
               <Multiplier
-                tip='How many ticks per second'
+                tip='How many ticks per second (0 for pause)'
                 elements={[0, 1, 2, 3]}
                 current={appState.tickPerSecond}
                 nameFormatter={n => n + 'x'}
