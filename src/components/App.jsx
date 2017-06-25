@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, PropTypes } from 'mobx-react'
-import { margin5, noTextSelect } from './../styles'
+import { margin5, noTextSelect, borderRight, borderBot, borderLeft, borderTop, fullHeight } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
 import { css } from 'glamor'
@@ -52,7 +52,7 @@ export default class App extends Component {
       <b.Row {...css(noTextSelect, margin5)} className='text-center'>
         <b.Col xs={3}>
           <b.Row>
-            <b.Col xs={12}>
+            <b.Col xs={12} {...css(borderBot, borderRight)}>
               <BigP>
                 Training
               </BigP>
@@ -64,10 +64,11 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
           <b.Row>
-            <BigP>
-              Units
-            </BigP>
-            <b.Col xs={12}>
+
+            <b.Col xs={12} {...css(borderBot, borderRight)}>
+              <BigP>
+                Units
+              </BigP>
               <UnitGrid
                 canBuy={u => appState.canBuy(u)}
                 onTrain={u => appState.buyUnit(u)}
@@ -75,7 +76,7 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
           <b.Row>
-            <b.Col xs={12}>
+            <b.Col xs={12} {...css(fullHeight, borderRight)}>
               <g.P fontSize='24px'>
                 War
               </g.P>
@@ -86,10 +87,10 @@ export default class App extends Component {
         <b.Col xs={5}>
           <b.Row>
             <ModalHelp />
-            <BigP>
-              Resource production rate
-            </BigP>
-            <b.Col xs={12}>
+            <b.Col xs={12} {...css(borderTop)}>
+              <BigP>
+                Resource production rate
+              </BigP>
               <ElementDivider>
                 {L(appState.resourcesSpeed).map((stats, i) =>
                   <StatsRow
@@ -114,7 +115,7 @@ export default class App extends Component {
         </b.Col>
         <b.Col xs={4}>
           <b.Row>
-            <b.Col xs={12}>
+            <b.Col xs={12} {...css(borderBot, borderLeft)}>
               <BigP>
                 Resources
               </BigP>
@@ -128,7 +129,7 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
           <b.Row>
-            <b.Col xs={12}>
+            <b.Col xs={12} {...css(borderBot, borderLeft)}>
               <BigP>
                 Population
               </BigP>
@@ -157,11 +158,11 @@ export default class App extends Component {
               </ElementDivider>
             </b.Col>
           </b.Row>
-          <b.Row>
-            <BigP>
-              Info
-            </BigP>
-            <b.Col xs={12}>
+          <b.Row {...css(borderBot, borderLeft)}>
+            <b.Col xs={12} >
+              <BigP>
+                Info
+              </BigP>
               <ElementDivider>
                 <StatsRow stats={appState.populationState.mortality} />
                 <StatsRow stats={appState.populationState.displeasure} />
@@ -171,7 +172,7 @@ export default class App extends Component {
           </b.Row>
           <b.Row />
           <b.Row>
-            <b.Col xs={12}>
+            <b.Col xs={12} {...css(borderBot, borderLeft)}>
               <BigP>
                 Speed
               </BigP>
@@ -183,7 +184,7 @@ export default class App extends Component {
             </b.Col>
           </b.Row>
           <b.Row>
-            <b.Col xs={12}>
+            <b.Col xs={12} {...css(borderLeft, fullHeight)}>
               <Taxes
                 value={appState.populationState.taxPercent}
                 onChangeComplete={n => appState.taxChange(n)}

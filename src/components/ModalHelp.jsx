@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import * as b from 'react-bootstrap'
+import { padded } from './../styles'
+import { css } from 'glamor'
 
 export default class ModalHelp extends Component {
   constructor (props, context) {
@@ -21,7 +23,7 @@ export default class ModalHelp extends Component {
 
   render () {
     return (
-      <div>
+      <div {...css(padded)}>
         <b.Button
           bsStyle='info'
           onClick={this.open}
