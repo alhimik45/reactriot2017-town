@@ -10,26 +10,35 @@ import Resource from './Resource'
 export default class AppState {
   @persist('object', ResourceState)
   @observable
-  resourcesState = new ResourceState()
+  resourcesState
 
   @persist('object', PopulationState)
   @observable
-  populationState = new PopulationState(this)
+  populationState
 
   @persist('object', BuildingState)
   @observable
-  buildingState = new BuildingState()
+  buildingState
 
-  @persist @observable tickPerSecond = 0
-  @persist @observable trainingMultiplier = 1
+  @persist @observable tickPerSecond
+  @persist @observable trainingMultiplier
 
   constructor () {
+    this.init()
     this.hydrate = create({ storage: window.localStorage })
     this.sync()
-    this.initPopulation()
     // this.doTick()
     this.runResourceTicks()
     this.runTrainingTicks()
+  }
+
+  init () {
+    this.resourcesState = new ResourceState()
+    this.buildingState = new BuildingState()
+    this.populationState = new PopulationState(this)
+    this.tickPerSecond = 0
+    this.trainingMultiplier = 1
+    this.initPopulation()
   }
 
   @action

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { observer, PropTypes } from 'mobx-react'
+import { action } from 'mobx'
 import { margin5, noTextSelect } from './../styles'
 import * as b from 'react-bootstrap'
 import g from 'glamorous'
@@ -85,7 +86,18 @@ export default class App extends Component {
         </b.Col>
         <b.Col xs={5}>
           <b.Row>
-            <ModalHelp />
+            <b.Col xs={6}>
+              <b.Button
+                bsStyle='success'
+                onClick={action(() => appState.init())}>
+                New game
+              </b.Button>
+            </b.Col>
+            <b.Col xs={6}>
+              <ModalHelp />
+            </b.Col>
+          </b.Row>
+          <b.Row>
             <BigP>
               Resource production rate
             </BigP>
