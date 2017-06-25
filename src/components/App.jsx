@@ -12,6 +12,7 @@ import StatsRow from './StatsRow'
 import UnitGrid from './UnitGrid'
 import DevTools from 'mobx-react-devtools'
 import BuildingGrid from './BuildingGrid'
+import AlertContainer from 'react-alert'
 
 const BigP = g.p({
   fontSize: '24px'
@@ -22,6 +23,14 @@ export default class App extends Component {
   // noinspection JSUnusedGlobalSymbols,JSUnresolvedVariable
   static propTypes = {
     appState: PropTypes.observableObject.isRequired
+  }
+
+  alertOptions = {
+    offset: 14,
+    position: 'bottom left',
+    theme: 'dark',
+    time: 5000,
+    transition: 'scale'
   }
 
   getProfessionsOneByOne () {
@@ -176,6 +185,7 @@ export default class App extends Component {
           </b.Row>
         </b.Col>
         <DevTools />
+        <AlertContainer ref={a => { appState.msg = a }} {...this.alertOptions} />
       </b.Row>
     )
   }

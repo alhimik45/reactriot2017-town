@@ -34,6 +34,7 @@
     "mobx-react-devtools": "^4.2.11",
     "prop-types": "^15.5.10",
     "react": "^15.1.0",
+    "react-alert": "^2.1.2",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.1.0",
     "react-passthrough": "^0.1.0",
