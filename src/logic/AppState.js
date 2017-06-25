@@ -139,10 +139,10 @@ export default class AppState {
   attack (power) {
     if (power / 500 > Math.random()) {
       const res = {
-        'FOOD': Math.round(_.random(0, power / 10)),
-        'MONEY': Math.round(_.random(0, power / 10)),
-        'WOOD': Math.round(_.random(0, power / 10)),
-        'GEMS': Math.round(_.random(0, power / 10))
+        'FOOD': Math.round(_.random(0, power * 10)),
+        'MONEY': Math.round(_.random(0, power * 10)),
+        'WOOD': Math.round(_.random(0, power * 10)),
+        'GEMS': Math.round(_.random(0, power * 10))
       }
       const resStr = L(res).map((val, key) => `${val} ${_.capitalize(key)}`).toArray().join(', ')
       this.resourcesState.applyDiff(res)
