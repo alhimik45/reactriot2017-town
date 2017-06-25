@@ -48,7 +48,7 @@ export default class PopulationState {
     return {
       name: this.displeasureVal >= 0 ? 'Anger' : 'Joy',
       imgSrc: this.displeasureVal >= 0 ? '/static/anger.svg' : '/static/happiness.svg',
-      amount: _.round(Math.abs(this.displeasureVal * 100), 3)
+      amount: _.round(Math.abs(this.displeasureVal * 100), 2)
     }
   }
 
@@ -104,7 +104,7 @@ export default class PopulationState {
 
   @computed get nonSpecialUnits () {
     return L(this.units.slice())
-      .filter(m => m.type.profession === 'worker' || m.type.profession === 'soldier' || m.type.id === 'IDLE')
+      .filter(m => m.type.profession === 'worker' || m.type.profession === 'soldier' || m.type.id === 'IDLE' || m.type.id === 'CRIMINAL')
       .toArray()
   }
 
@@ -184,6 +184,21 @@ export default class PopulationState {
     const needR = this.displeasureVal < 0.8
     const needA = this.displeasureVal < 0.5
     this.displeasureCoef = this.displeasureCoef + val
+    if (needR && this.displeasureVal > 0.8) {
+      this.appState.msg.show('RIOT has started')
+      this.badGuysGenerate()
+      return
+    }
+    if (needA && this.displeasureVal > 0.5) {
+      this.appState.msg.show('High risk of RIOT!')
+    }
+  }
+
+  @action
+  mortalityFoodSet (val) {
+    const needR = this.displeasureVal < 0.8
+    const needA = this.displeasureVal < 0.5
+    this.mortalityFoodCoef = val
     if (needR && this.displeasureVal > 0.8) {
       this.appState.msg.show('RIOT has started')
       this.badGuysGenerate()

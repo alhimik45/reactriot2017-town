@@ -48,9 +48,8 @@ export default class Unit {
     },
     GENERAL: {
       profession: 'soldier',
-      power: 0,
-      cost: [[Resource.types.FOOD.id, 10]],
-      description: 'General significantly increases power of army, but too many generals can lead to unrest and RIOT'
+      power: 30,
+      cost: [[Resource.types.FOOD.id, 10]]
     },
 
     RIOTER: {
