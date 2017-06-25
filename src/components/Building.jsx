@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as b from 'react-bootstrap'
 import * as g from 'glamorous'
+import {css} from 'glamor'
 import { observer, PropTypes as MPropTypes } from 'mobx-react'
 import Disabler from './Disabler'
 import ImageProgressBar from './ImageProgressBar'
@@ -31,14 +32,10 @@ export default class Building extends Component {
     return (
       <Disabler enabled={isBuildingActive}>
         <b.OverlayTrigger placement='top' overlay={tooltip}>
-          <ImageProgressBar imgSrc={building.imgSrc} progress={building.upgradeProgress}>
-            <g.Div
-              borderRadius='3px'
-              backgroundColor='rgba(10,10,10,0.3)'
-              className='text-center'>
-
-
-            </g.Div>
+          <ImageProgressBar
+            {...css({height: '70px'})}
+            imgSrc={building.imgSrc}
+            progress={building.upgradeProgress}>
             <b.Row>
               <b.Col
                 {...paddingSides5}
@@ -56,8 +53,8 @@ export default class Building extends Component {
                 {...paddingSides5}
                 xs={2}>
                 {
-                  building.queueLength ?
-                    <g.Span
+                  building.queueLength
+                    ? <g.Span
                       padding='1px'
                       margin='1px'
                       borderRadius='7px'

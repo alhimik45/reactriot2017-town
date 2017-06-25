@@ -11,7 +11,16 @@ export default class Building {
         [Resource.types.WOOD.id, 25]
       ],
       onBuilt: appState => appState.populationState.addIdle(10),
-      description: "Adds 10 idle people"
+      description: 'Adds 10 idle people'
+    },
+    SKYSCRAPPER: {
+      cost: [
+        [Resource.types.WOOD.id, 2500],
+        [Resource.types.MONEY.id, 1000],
+        [Resource.types.GEMS.id, 100]
+      ],
+      onBuilt: appState => appState.populationState.addIdle(1000),
+      description: 'Adds 1000 idle people'
     }
   }).map((val, key) => {
     val.id = key
@@ -55,7 +64,7 @@ export default class Building {
     this.amount = amount
   }
 
-  @computed get upgradeProgress(){
+  @computed get upgradeProgress () {
     return 100 - Math.round(this.buildingTicks / Building.trainingTicks * 100)
   }
 

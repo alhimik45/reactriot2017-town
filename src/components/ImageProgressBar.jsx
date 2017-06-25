@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { boldBorder } from './../styles'
-import { css } from 'glamor'
 import passthrough from 'react-passthrough'
 
 @passthrough()
