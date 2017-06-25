@@ -19,7 +19,7 @@ export default class AppState {
   @observable
   buildingState = new BuildingState()
 
-  @persist @observable tickPerSecond = 1
+  @persist @observable tickPerSecond = 0
   @persist @observable trainingMultiplier = 1
 
   constructor () {
@@ -38,7 +38,9 @@ export default class AppState {
 
   runResourceTicks () {
     setTimeout(() => {
-      this.doResourceTick()
+      if (this.tickPerSecond !== 0) {
+        this.doResourceTick()
+      }
       this.runResourceTicks()
     }, this.tickTime)
   }
@@ -56,7 +58,9 @@ export default class AppState {
 
   runTrainingTicks () {
     setTimeout(() => {
-      this.doTrainingTick()
+      if (this.tickPerSecond !== 0) {
+        this.doTrainingTick()
+      }
       this.runTrainingTicks()
     }, this.tickTime / 10)
   }
@@ -69,6 +73,9 @@ export default class AppState {
   }
 
   @computed get tickTime () {
+    if (this.tickPerSecond === 0) {
+      return 1000
+    }
     return 1000 / this.tickPerSecond
   }
 
